@@ -4,3 +4,7 @@
 2. Remplissez les valeurs nécessaires, par exemple :
    - `MONGO_URI` : La chaîne de connexion MongoDB.
    - `PORT` : Le port sur lequel le serveur va tourner (par défaut, 3000).
+
+
+npm start sur le terminal dans le dossier backend 
+npm run serve sur le terminal dans le dossier frontend
