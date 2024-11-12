@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-# Bourse-spéciale
-sae 5
-=======
+
 ## Configuration
 
 1. Copiez le fichier `.env.example` et renommez-le en `.env`.
@@ -10,6 +7,8 @@ sae 5
    - `PORT` : Le port sur lequel le serveur va tourner (par défaut, 3000).
 
 
-npm start sur le terminal dans le dossier backend 
+npm start sur le terminal dans le dossier backend
+
+
 npm run serve sur le terminal dans le dossier frontend
->>>>>>> master
+
