@@ -1,7 +1,5 @@
 <template>
     <div>
-      <router-link to="/search">Rechercher un film</router-link> <!-- Lien vers la page de recherche -->
-
       <h2>Liste des films</h2>
       <ul>
         <li v-for="film in films" :key="film._id">

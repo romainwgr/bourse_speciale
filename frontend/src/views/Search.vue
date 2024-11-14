@@ -1,6 +1,5 @@
 <template>
     <div>
-      <router-link to="/">Home</router-link> <!-- Lien vers la page de recherche -->
 
       <h2>Rechercher un film</h2>
       <input type="text" v-model="searchQuery" placeholder="Entrez le titre du film" />
