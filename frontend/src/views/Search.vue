@@ -1,3 +1,6 @@
+<!-- 
+    Page de recherche
+-->
 <template>
     <div>
 

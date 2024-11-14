@@ -1,3 +1,7 @@
+<!--
+    Composant qui affiche le footer
+-->
+
 <template>
     <footer>
       <p>&copy; 2024 Votre Application de Films</p>

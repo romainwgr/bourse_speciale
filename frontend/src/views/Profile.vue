@@ -1,3 +1,6 @@
+<!-- 
+    Page de profil
+-->
 <template>
     <div class="profile">
       <h2>Mon Profil</h2>

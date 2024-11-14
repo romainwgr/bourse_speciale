@@ -1,3 +1,6 @@
+<!--
+    Composant qui affiche la barre de navigation
+-->
 <template>
     <nav>
       <ul>
