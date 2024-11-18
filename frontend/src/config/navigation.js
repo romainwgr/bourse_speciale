@@ -1,18 +1,32 @@
 export default [
-    {
-      name: 'Accueil',
-      path: '/',
-      component: () => import('../views/Home.vue') // Lazy-loading du composant
-    },
-    {
-      name: 'Recherche de films',
-      path: '/recherche',
-      component: () => import('../views/Search.vue')
-    },
-    {
-      name: 'Profil',
-      path: '/profil',
-      component: () => import('../views/Profile.vue')
-    }
-  ];
-  
+  {
+    name: 'Accueil',
+    path: '/',
+    component: () => import('../views/Home.vue'),
+    showInNavbar: true
+  },
+  {
+    name: 'Recherche de films',
+    path: '/search',
+    component: () => import('../views/Search.vue'),
+    showInNavbar: true
+  },
+  {
+    name: 'Profil',
+    path: '/profil',
+    component: () => import('../views/Profile.vue'),
+    showInNavbar: true
+  },
+  {
+    name: 'FilmDetail',
+    path: '/films/:id',
+    component: () => import('@/components/film/FilmDetail.vue'),
+    showInNavbar: false // Ne pas afficher dans la navbar
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue'),
+    showInNavbar: false // Ne pas afficher dans la navbar
+  }
+];

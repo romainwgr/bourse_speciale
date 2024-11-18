@@ -1,50 +1,97 @@
 <!-- 
-    Page de recherche
+  Page de recherche
 -->
 <template>
-    <div>
+  <div>
+    <h2>Rechercher un film</h2>
+    <input
+      type="text"
+      v-model="searchQuery"
+      @input="handleSearch"
+      placeholder="Entrez le titre du film"
+    />
 
-      <h2>Rechercher un film</h2>
-      <input type="text" v-model="searchQuery" placeholder="Entrez le titre du film" />
-      <button @click="searchFilm">Rechercher</button>
-      
-      <div v-if="films.length">
-        <h3>Résultats de la recherche :</h3>
-        <ul>
-          <li v-for="film in films" :key="film._id">
-            {{ film.titre }} ({{ film.date_sortie }})
-          </li>
-        </ul>
-      </div>
-      <p v-else>Aucun résultat trouvé</p>
+    <!-- Résultats de la recherche -->
+    <div v-if="films.length" class="films-grid">
+      <FilmCard 
+        v-for="film in films" 
+        :key="film._id" 
+        :film="film" 
+      />
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        searchQuery: '',
-        films: []
-      };
+
+    <!-- Message si aucun résultat trouvé -->
+    <p v-else-if="searchQuery.trim() && !isLoading">
+      Aucun film trouvé pour "{{ searchQuery }}"
+    </p>
+
+    <!-- Indicateur de chargement -->
+    <p v-if="isLoading">Recherche en cours...</p>
+  </div>
+</template>
+
+<script>
+import FilmCard from "@/components/film/FilmCard.vue";
+
+export default {
+  components: {
+    FilmCard
+  },
+  data() {
+    return {
+      searchQuery: "",
+      films: [],
+      isLoading: false,
+      searchTimeout: null
+    };
+  },
+  methods: {
+    handleSearch() {
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+      }
+
+      if (!this.searchQuery.trim()) {
+        this.films = [];
+        return;
+      }
+
+      this.searchTimeout = setTimeout(() => {
+        this.searchFilm();
+      }, 500);
     },
-    methods: {
-      async searchFilm() {
-        try {
-          // Appel de l'API avec `fetch` pour rechercher un film par titre
-          const response = await fetch(`http://localhost:3000/api/films/search?title=${encodeURIComponent(this.searchQuery)}`);
-          
-          if (!response.ok) {
-            throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
-          }
-          
-          const data = await response.json();
-          this.films = data;
-        } catch (error) {
-          console.error("Erreur lors de la recherche du film :", error);
+    async searchFilm() {
+      this.isLoading = true;
+
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/films/search?title=${encodeURIComponent(
+            this.searchQuery
+          )}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP : ${response.status}`);
         }
+
+        const data = await response.json();
+        this.films = data;
+      } catch (error) {
+        console.error("Erreur lors de la recherche :", error);
+        this.films = [];
+      } finally {
+        this.isLoading = false;
       }
     }
-  };
-  </script>
-  
+  }
+};
+</script>
+
+<style scoped>
+.films-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+</style>
