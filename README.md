@@ -7,8 +7,10 @@
    - `PORT` : Le port sur lequel le serveur va tourner (par défaut, 3000).
 
 
-npm start sur le terminal dans le dossier backend
-
-
-npm run serve sur le terminal dans le dossier frontend
+3. Sur le dossier backend :
+   - npm install
+   - npm start
+4. Sur le dossier frontend :
+   - npm install
+   - run run serve
 
