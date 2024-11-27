@@ -17,7 +17,7 @@
     <div class="film-detail__info">
       <h2 class="film-detail__title">{{ film.Series_Title }}</h2>
       <p class="film-detail__year"><strong>Année de sortie :</strong> {{ film.Released_Year }}</p>
-      <p class="film-detail__genre"><strong>Genre :</strong> {{ film.Genre }}</p>
+      <p class="film-detail__genre"><strong>Genres :</strong> {{ film.Genre }}</p>
       <p class="film-detail__runtime"><strong>Durée :</strong> {{ film.Runtime }}</p>
       <p class="film-detail__rating"><strong>Note IMDB :</strong> <span class="rating">{{ film.IMDB_Rating }}</span></p>
       <p class="film-detail__director"><strong>Réalisateur :</strong> {{ film.Director }}</p>
@@ -86,12 +86,13 @@ export default {
 }
 
 .film-detail__image {
-  width: 100%;
-  max-height: 90vh; /* Rend l'image plus grande sur l'écran */
+  width: 70%; /* Réduit la largeur de l'image */
+  max-height: 400px; /* Limite la hauteur maximale de l'image */
   object-fit: cover; /* Maintient les proportions */
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
+
 
 .film-detail__info {
   flex: 2;
