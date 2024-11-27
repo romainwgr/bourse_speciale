@@ -34,14 +34,14 @@ const userSchema = new mongoose.Schema(
     liked_movies: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Movie', // Référence à une collection "Movie"
+        ref: 'films', // Référence à une collection 
       },
     ],
     rated_movies: [
       {
         movie: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Movie',
+          ref: 'films',
           required: true,
         },
         rating: {
@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema(
     },
     profil_image: {
       type: String,
-      default: '', // URL de l'image de profil
+      default: 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg', // URL de l'image de profil
     }
   }
 );
