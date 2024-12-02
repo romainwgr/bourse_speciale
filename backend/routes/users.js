@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const { authenticateToken } = require('./authMiddleWare');
+
 const usersController = require('../controllers/usersController');
 
 // Récupérer tous les utilisateurs
-router.get('/', usersController.getAllUsers);
+// router.get('/', usersController.getAllUsers);
 
 // Créer un nouvel utilisateur (inscription)
-router.post('/', usersController.createUser);
+router.post('/new', usersController.createUser);
 
 // Se connecter (authentification)
 router.post('/login', usersController.loginUser);
@@ -15,7 +17,7 @@ router.post('/login', usersController.loginUser);
 // router.get('/:id', usersController.getUserById);
 
 // Mettre à jour le profil de l'utilisateur
-router.put('/:id', usersController.updateUserProfile);
+router.put('/:id', authenticateToken,usersController.updateUserProfile);
 
 // // Mettre à jour l'image de profil
 // router.patch('/:id/image', usersController.updateProfileImage);
@@ -36,6 +38,6 @@ router.put('/:id', usersController.updateUserProfile);
 // router.patch('/:id/phone', usersController.updatePhoneNumber);
 
 // Supprimer un utilisateur
-router.delete('/:id', usersController.deleteUser);
+router.delete('/:id', authenticateToken,usersController.deleteUser);
 
 module.exports = router;

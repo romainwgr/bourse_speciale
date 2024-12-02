@@ -22,6 +22,10 @@ mongoose.connect(process.env.MONGO_URI)
 const filmRoutes = require('./routes/films.js');
 app.use('/api/films', filmRoutes);
 
+const usersRoutes = require('./routes/users.js');
+app.use('/api/users', usersRoutes);
+
+
 // Route de test pour vérifier que le serveur fonctionne
 app.get('/', (req, res) => {
   res.send("Bienvenue sur l'API de films !");
