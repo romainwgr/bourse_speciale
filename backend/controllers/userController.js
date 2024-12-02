@@ -5,15 +5,15 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = 'votre_secret_jwt';
 
-// Récupérer tous les utilisateurs
-const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find();
-        res.json(users);
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
-    }
-};
+// // Récupérer tous les utilisateurs
+// const getAllUsers = async (req, res) => {
+//     try {
+//         const users = await User.find();
+//         res.json(users);
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
+//     }
+// };
 
 // Créer un utilisateur (inscription)
 const createUser = async (req, res) => {
@@ -94,155 +94,160 @@ const updateUserProfile = async (req, res) => {
 };
 
 // Modifier l'image de profil
-const updateProfileImage = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { profil_image } = req.body;
+// const updateProfileImage = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { profil_image } = req.body;
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID invalide.' });
-        }
+//         if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+//             return res.status(400).json({ message: 'ID invalide.' });
+//         }
 
-        if (!profil_image) {
-            return res.status(400).json({ message: "L'URL de l'image est requise." });
-        }
+//         if (!profil_image) {
+//             return res.status(400).json({ message: "L'URL de l'image est requise." });
+//         }
 
-        const updatedUser = await User.findByIdAndUpdate(id, { profil_image }, { new: true });
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
+//         const updatedUser = await User.findByIdAndUpdate(id, { profil_image }, { new: true });
+//         if (!updatedUser) {
+//             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+//         }
 
-        res.json({ message: "Image de profil mise à jour avec succès.", updatedUser });
-    } catch (err) {
-        res.status(500).json({ message: "Erreur lors de la mise à jour de l'image de profil.", error: err.message });
-    }
-};
+//         res.json({ message: "Image de profil mise à jour avec succès.", updatedUser });
+//     } catch (err) {
+//         res.status(500).json({ message: "Erreur lors de la mise à jour de l'image de profil.", error: err.message });
+//     }
+// };
 
-// Récupérer les films aimés d'un utilisateur
-const getLikedMovies = async (req, res) => {
-    try {
-        const { id } = req.params;
+// Récupérer les films aimés d'un utilisateur 
+// TODO c'est l'utilisateur connecté peut etre y a un moyen plus simple et econome
+// const getLikedMovies = async (req, res) => {
+//     try {
+//         const { id } = req.params;
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID invalide.' });
-        }
+//         if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+//             return res.status(400).json({ message: 'ID invalide.' });
+//         }
 
-        const user = await User.findById(id).populate('liked_movies');
-        if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
+//         const user = await User.findById(id).populate('liked_movies');
+//         if (!user) {
+//             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+//         }
 
-        res.json({ liked_movies: user.liked_movies });
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de la récupération des films aimés.' });
-    }
-};
+//         res.json({ liked_movies: user.liked_movies });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de la récupération des films aimés.' });
+//     }
+// };
 
 // Ajouter un film aux liked_movies d'un utilisateur
-const addLikedMovie = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { movieId } = req.body;
+// TODO c'est l'utilisateur connecté peut etre y a un moyen plus simple et econome
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id) || !movieId || !mongoose.Types.ObjectId.isValid(movieId)) {
-            return res.status(400).json({ message: 'ID utilisateur ou film invalide.' });
-        }
+// const addLikedMovie = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { movieId } = req.body;
 
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
+//         if (!id || !mongoose.Types.ObjectId.isValid(id) || !movieId || !mongoose.Types.ObjectId.isValid(movieId)) {
+//             return res.status(400).json({ message: 'ID utilisateur ou film invalide.' });
+//         }
 
-        if (user.liked_movies.includes(movieId)) {
-            return res.status(400).json({ message: 'Ce film est déjà dans les films aimés.' });
-        }
+//         const user = await User.findById(id);
+//         if (!user) {
+//             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+//         }
 
-        user.liked_movies.push(movieId);
-        await user.save();
+//         if (user.liked_movies.includes(movieId)) {
+//             return res.status(400).json({ message: 'Ce film est déjà dans les films aimés.' });
+//         }
 
-        res.json({ message: 'Film ajouté aux films aimés.', liked_movies: user.liked_movies });
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de l’ajout du film.', error: err.message });
-    }
-};
+//         user.liked_movies.push(movieId);
+//         await user.save();
+
+//         res.json({ message: 'Film ajouté aux films aimés.', liked_movies: user.liked_movies });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de l’ajout du film.', error: err.message });
+//     }
+// };
 
 // Récupérer les films notés d'un utilisateur
-const getRatedMovies = async (req, res) => {
-    try {
-        const { id } = req.params;
+// TODO c'est l'utilisateur connecté peut etre y a un moyen plus simple et econome
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID invalide.' });
-        }
+// const getRatedMovies = async (req, res) => {
+//     try {
+//         const { id } = req.params;
 
-        const user = await User.findById(id).populate('rated_movies.movie');
-        if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
+//         if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+//             return res.status(400).json({ message: 'ID invalide.' });
+//         }
 
-        res.json({ rated_movies: user.rated_movies });
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de la récupération des films notés.' });
-    }
-};
+//         const user = await User.findById(id).populate('rated_movies.movie');
+//         if (!user) {
+//             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+//         }
 
-// Ajouter une note à un film
-const addRatedMovie = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { movieId, rating, comment } = req.body;
+//         res.json({ rated_movies: user.rated_movies });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de la récupération des films notés.' });
+//     }
+// };
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id) || !movieId || !mongoose.Types.ObjectId.isValid(movieId)) {
-            return res.status(400).json({ message: 'ID utilisateur ou film invalide.' });
-        }
+// // Ajouter une note à un film
+// const addRatedMovie = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { movieId, rating, comment } = req.body;
 
-        if (rating < 0 || rating > 5) {
-            return res.status(400).json({ message: 'La note doit être comprise entre 0 et 5.' });
-        }
+//         if (!id || !mongoose.Types.ObjectId.isValid(id) || !movieId || !mongoose.Types.ObjectId.isValid(movieId)) {
+//             return res.status(400).json({ message: 'ID utilisateur ou film invalide.' });
+//         }
 
-        const user = await User.findById(id);
-        if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
+//         if (rating < 0 || rating > 5) {
+//             return res.status(400).json({ message: 'La note doit être comprise entre 0 et 5.' });
+//         }
 
-        const alreadyRated = user.rated_movies.find((rm) => rm.movie.toString() === movieId);
-        if (alreadyRated) {
-            return res.status(400).json({ message: 'Ce film a déjà été noté.' });
-        }
+//         const user = await User.findById(id);
+//         if (!user) {
+//             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+//         }
 
-        user.rated_movies.push({ movie: movieId, rating, comment });
-        await user.save();
+//         const alreadyRated = user.rated_movies.find((rm) => rm.movie.toString() === movieId);
+//         if (alreadyRated) {
+//             return res.status(400).json({ message: 'Ce film a déjà été noté.' });
+//         }
 
-        res.json({ message: 'Film noté avec succès.', rated_movies: user.rated_movies });
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de la notation du film.', error: err.message });
-    }
-};
+//         user.rated_movies.push({ movie: movieId, rating, comment });
+//         await user.save();
 
-// Mettre à jour le numéro de téléphone
-const updatePhoneNumber = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { phone } = req.body;
+//         res.json({ message: 'Film noté avec succès.', rated_movies: user.rated_movies });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de la notation du film.', error: err.message });
+//     }
+// };
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID invalide.' });
-        }
+// // Mettre à jour le numéro de téléphone
+// const updatePhoneNumber = async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { phone } = req.body;
 
-        if (!phone) {
-            return res.status(400).json({ message: 'Le numéro de téléphone est requis.' });
-        }
+//         if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+//             return res.status(400).json({ message: 'ID invalide.' });
+//         }
 
-        const updatedUser = await User.findByIdAndUpdate(id, { phone }, { new: true, runValidators: true });
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
+//         if (!phone) {
+//             return res.status(400).json({ message: 'Le numéro de téléphone est requis.' });
+//         }
 
-        res.json({ message: 'Numéro de téléphone mis à jour avec succès.', user: updatedUser });
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de la mise à jour du numéro de téléphone.', error: err.message });
-    }
-};
+//         const updatedUser = await User.findByIdAndUpdate(id, { phone }, { new: true, runValidators: true });
+//         if (!updatedUser) {
+//             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+//         }
+
+//         res.json({ message: 'Numéro de téléphone mis à jour avec succès.', user: updatedUser });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de la mise à jour du numéro de téléphone.', error: err.message });
+//     }
+// };
 
 // Supprimer un utilisateur
 const deleteUser = async (req, res) => {
@@ -265,15 +270,13 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-    getAllUsers,
     createUser,
     loginUser,
     updateUserProfile,
-    updateProfileImage,
-    getLikedMovies,
-    addLikedMovie,
-    getRatedMovies,
-    addRatedMovie,
-    updatePhoneNumber,
+    // updateProfileImage,
+    // getLikedMovies,
+    // addLikedMovie,
+    // getRatedMovies,
+    // addRatedMovie,
     deleteUser,
 };
