@@ -3,7 +3,7 @@
 -->
 <template>
   <footer class="footer">
-    <p>&copy; 2024 Votre Application de Films</p>
+    <p>&copy; 2024 - Bourse Spéciale - Toute reproduction formellement interdite sous peine de prison ferme pendant 2 ans et une amende de 75 000 euros (à partager équitablement avec les membres du groupe).</p>
   </footer>
 </template>
 
@@ -14,30 +14,28 @@ export default {
 </script>
 
 <style scoped>
-/* Styles généraux pour garantir le sticky footer */
+
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%; /* Permet d'étendre le body à la taille de la fenêtre */
+  height: 100%; 
 }
 
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100%; /* App occupe au moins la hauteur de la fenêtre */
+  min-height: 100%;
 }
 
-/* Contenu principal de la page */
 main {
-  flex: 1; /* Remplit tout l'espace disponible avant le footer */
+  flex: 1;
 }
 
-/* Footer collant */
 .footer {
-  background-color: #333;
+  background-color: grey;
   color: #fff;
-  padding: 1em;
+  margin-block: 10px;
+  padding: 0.5em;
   text-align: center;
-  margin-top: auto; /* Place le footer après le contenu */
 }
 </style>

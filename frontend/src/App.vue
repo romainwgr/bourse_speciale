@@ -1,7 +1,6 @@
 <template>
     <div id="app">
       <Navbar />
-      <h1>Bienvenue sur l'application de films</h1>
       <router-view></router-view>
       <Footer />
     </div>
@@ -20,7 +19,7 @@
   };
   </script>
   
-  <style>
-  /* Styles globaux, si nécessaire */
-  </style>
+<style>
+
+</style>
   
