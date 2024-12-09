@@ -1,42 +1,31 @@
-const mongoose = require('mongoose');
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const argon2 = require('argon2'); 
 const jwt = require('jsonwebtoken');
-
-const JWT_SECRET = 'votre_secret_jwt';
-
-// // Récupérer tous les utilisateurs
-// const getAllUsers = async (req, res) => {
-//     try {
-//         const users = await User.find();
-//         res.json(users);
-//     } catch (err) {
-//         res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
-//     }
-// };
 
 // Créer un utilisateur (inscription)
 const createUser = async (req, res) => {
     try {
-        const { name, public_name, email, password, phone } = req.body;
+        const { name, public_name, email, password } = req.body;
 
+        // Validation des champs requis
         if (!name || !public_name || !email || !password) {
             return res.status(400).json({ message: 'Tous les champs obligatoires doivent être remplis.' });
         }
 
+        // Vérification de l'existence d'un utilisateur
         const existingUser = await User.findOne({ $or: [{ email }, { public_name }] });
         if (existingUser) {
             return res.status(400).json({ message: 'Email ou pseudonyme déjà utilisé.' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Hachage sécurisé du mot de passe avec Argon2
+        const hashedPassword = await argon2.hash(password);
 
         const user = new User({
             name,
             public_name,
             email,
-            password: hashedPassword,
-            phone,
+            password: hashedPassword
         });
 
         await user.save();
@@ -48,50 +37,139 @@ const createUser = async (req, res) => {
 
 // Se connecter (authentification)
 const loginUser = async (req, res) => {
+    console.log('Début de la fonction loginUser');
     try {
         const { email, password } = req.body;
 
+        console.log("Requête reçue avec :", { email, password });
+
+        // Validation des champs requis
         if (!email || !password) {
+            console.warn("Email ou mot de passe manquant.");
             return res.status(400).json({ message: 'Email et mot de passe requis.' });
         }
 
+        // Recherche de l'utilisateur par email
         const user = await User.findOne({ email });
         if (!user) {
+            console.warn("Utilisateur non trouvé pour l'email :", email);
             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Mot de passe incorrect.' });
+        console.log("Utilisateur trouvé :", {
+            id: user._id,
+            email: user.email,
+            public_name: user.public_name,
+            password: user.password
+        });
+
+        // Vérification du mot de passe directement avec Argon2
+        try {
+            console.log("Mot de passe en clair :", password);
+            console.log("Mot de passe haché :", user.password);
+            const isPasswordValid = await argon2.verify(user.password, password);
+            console.log("Résultat de la vérification du mot de passe :", isPasswordValid);
+
+            if (!isPasswordValid) {
+                console.warn("Mot de passe incorrect pour l'utilisateur :", email);
+                return res.status(401).json({ message: 'Mot de passe incorrect.' });
+            }
+        } catch (err) {
+            console.error("Erreur lors de la vérification du mot de passe :", err);
+            return res.status(500).json({ message: 'Erreur lors de la vérification du mot de passe.' });
         }
 
-        const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
-        res.json({ message: 'Connexion réussie.', token, user });
+        // Génération d'un token JWT
+        try {
+            const token = jwt.sign(
+                { id: user._id, email: user.email }, // Payload
+                process.env.JWT_SECRET, // Clé secrète
+                { expiresIn: '1h' } // Expiration
+            );
+
+            console.log("Token généré avec succès :", token);
+
+            res.status(200).json({
+                message: 'Connexion réussie.',
+                token,
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    public_name: user.public_name,
+                },
+            });
+        } catch (err) {
+            console.error("Erreur lors de la génération du token JWT :", err);
+            return res.status(500).json({ message: 'Erreur lors de la génération du token.' });
+        }
     } catch (err) {
+        console.error("Erreur lors de la connexion :", err);
         res.status(500).json({ message: 'Erreur lors de la connexion.', error: err.message });
     }
 };
 
+
 // Modifier le profil d'un utilisateur
 const updateUserProfile = async (req, res) => {
     try {
-        const { id } = req.params;
         const updates = req.body;
 
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID invalide.' });
+        // Utiliser l'ID extrait du token JWT
+        const userId = req.user.id;
+
+        // Validation des données mises à jour (optionnel, peut être renforcé)
+        if (!updates || Object.keys(updates).length === 0) {
+            return res.status(400).json({ message: 'Aucune mise à jour fournie.' });
         }
 
-        const updatedUser = await User.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+        // Mise à jour de l'utilisateur
+        const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true, runValidators: true });
         if (!updatedUser) {
             return res.status(404).json({ message: 'Utilisateur non trouvé.' });
         }
 
-        res.json({ message: 'Profil mis à jour avec succès.', updatedUser });
+        res.status(200).json({
+            message: 'Profil mis à jour avec succès.',
+            user: updatedUser,
+        });
     } catch (err) {
+        console.error('Erreur lors de la mise à jour du profil :', err);
         res.status(500).json({ message: 'Erreur lors de la mise à jour du profil.', error: err.message });
     }
 };
+
+
+// Supprimer un utilisateur
+const deleteUser = async (req, res) => {
+    try {
+        // Utiliser l'ID extrait du token JWT
+        const userId = req.user.id;
+
+        // Suppression de l'utilisateur
+        const deletedUser = await User.findByIdAndDelete(userId);
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+        }
+
+        res.status(200).json({
+            message: 'Utilisateur supprimé avec succès.',
+            user: deletedUser,
+        });
+    } catch (err) {
+        console.error('Erreur lors de la suppression de l’utilisateur :', err);
+        res.status(500).json({ message: 'Erreur lors de la suppression de l’utilisateur.', error: err.message });
+    }
+};
+
+module.exports = {
+    createUser,
+    loginUser,
+    updateUserProfile,
+    deleteUser,
+};
+
+
 
 // Modifier l'image de profil
 // const updateProfileImage = async (req, res) => {
@@ -117,6 +195,17 @@ const updateUserProfile = async (req, res) => {
 //         res.status(500).json({ message: "Erreur lors de la mise à jour de l'image de profil.", error: err.message });
 //     }
 // };
+
+// // Récupérer tous les utilisateurs
+// const getAllUsers = async (req, res) => {
+//     try {
+//         const users = await User.find();
+//         res.json(users);
+//     } catch (err) {
+//         res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
+//     }
+// };
+
 
 // Récupérer les films aimés d'un utilisateur 
 // TODO c'est l'utilisateur connecté peut etre y a un moyen plus simple et econome
@@ -249,34 +338,3 @@ const updateUserProfile = async (req, res) => {
 //     }
 // };
 
-// Supprimer un utilisateur
-const deleteUser = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID invalide.' });
-        }
-
-        const deletedUser = await User.findByIdAndDelete(id);
-        if (!deletedUser) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-        }
-
-        res.json({ message: 'Utilisateur supprimé avec succès.', deletedUser });
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur lors de la suppression de l’utilisateur.', error: err.message });
-    }
-};
-
-module.exports = {
-    createUser,
-    loginUser,
-    updateUserProfile,
-    // updateProfileImage,
-    // getLikedMovies,
-    // addLikedMovie,
-    // getRatedMovies,
-    // addRatedMovie,
-    deleteUser,
-};

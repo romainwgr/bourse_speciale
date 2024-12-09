@@ -54,6 +54,13 @@ const getFilmById = async (req, res) => {
         res.status(500).json({ message: 'Erreur interne du serveur.' });
     }
 };
+// TODO getAllAvisByFilm
+// TODO AddAvis
+// TODO ModifAvis
+// TODO SupprAvis
+// TODO RemoveLike
+// TODO AddLike
+// TODO VoirRecentFilmRecherché
 
 module.exports = {
     getAllFilms,
