@@ -12,5 +12,5 @@
    - npm start
 4. Sur le dossier frontend :
    - npm install
-   - run run serve
+   - npm run serve
 
