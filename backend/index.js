@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Importer cors
+const cors = require('cors'); // Importer cors Cross origin
 
 require('dotenv').config();
 
@@ -21,6 +21,10 @@ mongoose.connect(process.env.MONGO_URI)
 // Importer et utiliser les routes de l'API des films
 const filmRoutes = require('./routes/films.js');
 app.use('/api/films', filmRoutes);
+
+const usersRoutes = require('./routes/users.js');
+app.use('/api/users', usersRoutes);
+
 
 // Route de test pour vérifier que le serveur fonctionne
 app.get('/', (req, res) => {

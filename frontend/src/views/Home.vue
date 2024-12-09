@@ -10,23 +10,28 @@
         {{ film.Series_Title }} ({{ film.Released_Year }})
       </li>
     </ul>
+
+    <!-- Bouton custom pour tester -->
+    <CustomButton text="Valider" color="red" @click="handleValidation" />
+
     <!-- Message d'erreur si la requête échoue -->
     <p v-if="errorMessage">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       films: [], // Tableau pour stocker les films récupérés
-      errorMessage: "" // Message d'erreur en cas de problème
+      errorMessage: "", // Message d'erreur en cas de problème
     };
   },
   async created() {
     try {
       // Appel à l'API pour récupérer les films
-      const response = await fetch('http://localhost:3000/api/films'); // Remplace par l'URL réelle de ton API
+      const response = await fetch("http://localhost:3000/api/films"); // Remplace par l'URL réelle de ton API
       if (!response.ok) {
         throw new Error(`Erreur HTTP ! Statut : ${response.status}`); // Gestion des erreurs HTTP
       }
@@ -37,6 +42,11 @@ export default {
       this.errorMessage = "Erreur lors de la récupération des films : " + error.message;
       console.error(error);
     }
-  }
+  },
+  methods: {
+    handleValidation() {
+      alert("Validation réussie !");
+    },
+  },
 };
 </script>
