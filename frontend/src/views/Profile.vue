@@ -3,9 +3,7 @@
 -->
 <template>
   <div class="profile">
-    <h1>Profil</h1>
     <!-- Autres contenus du profil -->
-
     <!-- Intégration du composant SignUp -->
     <Authentication />
   </div>

@@ -3,10 +3,8 @@
 -->
 <template>
     <div class="login-form">
-      <h2>Connexion</h2>
       <form @submit.prevent="handleLogin">
         <div>
-          <label for="email">Email :</label>
           <input
             type="email"
             id="email"
@@ -16,7 +14,6 @@
           />
         </div>
         <div>
-          <label for="password">Mot de passe :</label>
           <input
             type="password"
             id="password"
@@ -79,26 +76,17 @@
   </script>
   
   <style scoped>
-  .login-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 1em;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  .login-form label {
-    display: block;
-    margin-bottom: 0.5em;
-  }
+ 
+ 
   .login-form input {
-    width: 100%;
+    width: 80%;
     padding: 0.5em;
     margin-bottom: 1em;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   .login-form button {
-    width: 100%;
+    width: 85%;
     padding: 0.7em;
     background-color: #007bff;
     color: white;

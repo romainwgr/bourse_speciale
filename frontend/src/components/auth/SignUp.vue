@@ -1,9 +1,7 @@
 <template>
     <div class="signup">
-      <h2>Inscription</h2>
       <form @submit.prevent="handleSignUp">
         <div>
-          <label for="name">Nom :</label>
           <input
             type="text"
             id="name"
@@ -13,7 +11,6 @@
           />
         </div>
         <div>
-          <label for="public_name">Nom Public (Pseudonyme) :</label>
           <input
             type="text"
             id="public_name"
@@ -23,7 +20,6 @@
           />
         </div>
         <div>
-          <label for="email">Email :</label>
           <input
             type="email"
             id="email"
@@ -33,7 +29,6 @@
           />
         </div>
         <div>
-          <label for="password">Mot de passe :</label>
           <input
             type="password"
             id="password"
@@ -103,26 +98,16 @@
   </script>
   
   <style scoped>
-  .signup {
-    max-width: 400px;
-    margin: auto;
-    padding: 1em;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  .signup label {
-    display: block;
-    margin-bottom: 0.5em;
-  }
+ 
   .signup input {
-    width: 100%;
+    width: 80%;
     padding: 0.5em;
     margin-bottom: 1em;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   .signup button {
-    width: 100%;
+    width: 85%;
     padding: 0.7em;
     background-color: #007bff;
     color: white;

@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Importer cors
+const cors = require('cors'); // Importer cors Cross origin
 
 require('dotenv').config();
 
