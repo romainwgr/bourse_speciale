@@ -3,7 +3,8 @@
 -->
 <template>
   <div>
-    <h2>Liste des films</h2>
+    <h1>Bienvenue sur l'application de films</h1>
+    <h2>Liste des films du moment</h2>
     <!-- Liste des films -->
     <ul>
       <li v-for="film in films" :key="film._id">
@@ -40,3 +41,6 @@ export default {
   }
 };
 </script>
+<style>
+
+</style>
