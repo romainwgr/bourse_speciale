@@ -1,20 +1,21 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Format attendu : "Bearer TOKEN"
+const isAuthenticated = (req, res, next) => {
+    console.log('dans le middleware');// Debug
+    const token = req.cookies.authToken; // Récupération du token dans le cookie
 
     if (!token) {
-        return res.status(401).json({ message: "Token d'authentification requis." });
+        return res.status(401).json({ message: "Accès non autorisé. Token manquant." });
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Décodage du token
-        req.user = decoded; // Ajouter les données utilisateur décodées à la requête
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Ajoute les informations utilisateur dans `req.user`
         next();
     } catch (err) {
+        console.error("Token invalide ou expiré :", err);
         return res.status(403).json({ message: "Token invalide ou expiré." });
     }
 };
 
-module.exports = { authenticateToken };
+module.exports = isAuthenticated;
