@@ -1,22 +1,15 @@
-<!-- 
-    Page d'accueil
--->
 <template>
   <div>
     <h2>Liste des films</h2>
-    <!-- Liste des films -->
-    <ul>
-      <li v-for="film in films" :key="film._id">
-        <!-- {{ film.Series_Title }} ({{ film.Released_Year }}) -->
-          {{ film.originalTitle }}({{ film.startYear }})  
-           <div v-if="film.poster_url">
-          <img :src="film.poster_url" :alt="film.originalTitle" style="width: 150px; height: auto;" />
-        </div>
-      </li>
-    </ul>
-
-    <!-- Bouton custom pour tester -->
-    <CustomButton text="Valider" color="red" @click="handleValidation" />
+    <!-- Liste horizontale de films avec défilement -->
+    <div class="film-container">
+      <div v-for="film in films" :key="film._id" class="film-item">
+        <!-- Titre du film -->
+        <h3>{{ film.originalTitle }} ({{ film.startYear }})</h3>
+        <!-- Affichage de l'image du poster -->
+        <img :src="film.poster_url" :alt="film.originalTitle" class="poster" />
+      </div>
+    </div>
 
     <!-- Message d'erreur si la requête échoue -->
     <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -24,7 +17,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -47,10 +39,33 @@ export default {
       console.error(error);
     }
   },
-  methods: {
-    handleValidation() {
-      alert("Validation réussie !");
-    },
-  },
 };
 </script>
+
+<style scoped>
+.film-container {
+  display: flex; /* Affichage horizontal */
+  overflow-x: auto; /* Permet le défilement horizontal */
+  padding: 10px 0;
+  gap: 20px; /* Espacement entre les éléments */
+}
+
+.film-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px; /* Largeur minimum pour chaque film */
+  max-width: 200px; /* Limite la taille du film */
+}
+
+.poster {
+  width: 100%; /* Assure que l'image prend toute la largeur du conteneur */
+  height: auto; /* Conserve les proportions de l'image */
+  border-radius: 8px; /* Optionnel : pour arrondir les coins des images */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+</style>
