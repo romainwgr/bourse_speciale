@@ -2,7 +2,7 @@
     Page d'accueil
 -->
 <template>
-  <div>
+  <div class="home">
     <h1>Bienvenue sur l'application de films</h1>
     <h2>Liste des films du moment</h2>
     <!-- Liste des films -->
@@ -42,5 +42,16 @@ export default {
 };
 </script>
 <style>
+body {
+  background-color: #1B1B1B;
+}
+h1, h2 {
+  text-align: center;
+  color: white;
+}
+
+.home li, .home h2 {
+  color: white;
+}
 
 </style>

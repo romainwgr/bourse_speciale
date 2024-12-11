@@ -32,10 +32,12 @@ main {
 }
 
 .footer {
-  background-color: grey;
+  background-color: #1A1A1A;
   color: #fff;
-  margin-block: 10px;
   padding: 0.5em;
   text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 </style>

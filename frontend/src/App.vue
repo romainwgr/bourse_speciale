@@ -20,6 +20,9 @@
   </script>
   
 <style>
-
+body {
+  background-color: #1B1B1B;
+  margin: 0;
+}
 </style>
   

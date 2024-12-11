@@ -44,11 +44,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  h2 {
-    text-align: center;
-    color: #333;
-  }
-  
   button {
     display: block;
     margin: 1em auto;
