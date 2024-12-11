@@ -2,8 +2,9 @@
     Page d'accueil
 -->
 <template>
-  <div>
-    <h2>Liste des films</h2>
+  <div class="home">
+    <h1>Bienvenue sur l'application de films</h1>
+    <h2>Liste des films du moment</h2>
     <!-- Liste des films -->
     <ul>
       <li v-for="film in films" :key="film._id">
@@ -51,3 +52,17 @@ export default {
   },
 };
 </script>
+<style>
+body {
+  background-color: #1B1B1B;
+}
+h1, h2 {
+  text-align: center;
+  color: white;
+}
+
+.home li, .home h2 {
+  color: white;
+}
+
+</style>

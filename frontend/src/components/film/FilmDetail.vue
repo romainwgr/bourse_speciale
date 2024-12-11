@@ -15,6 +15,7 @@
 
     <!-- Section Infos -->
     <div class="film-detail__info">
+
       <h2 class="film-detail__title">{{ film.originalTitle }}</h2>
       <p class="film-detail__year"><strong>Année de sortie :</strong> {{ film.startYear }}</p>
       <p class="film-detail__genre"><strong>Genres :</strong> {{ film.titleType }}</p>
@@ -29,8 +30,6 @@
   <!-- Message de chargement -->
   <p v-else class="loading">Chargement des détails du film...</p>
 </template>
-
-
 
 
 <script>
@@ -66,52 +65,50 @@ export default {
 <style scoped>
 .film-detail {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 30px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 30px;
   border-radius: 15px;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
-  margin: 20px auto;
-  max-width: 1200px;
 }
 
 .film-detail__image-container {
-  flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 30%;
+  height: 100%;
 }
 
 .film-detail__image {
+
   width: 70%; /* Réduit la largeur de l'image */
   max-height: 400px; /* Limite la hauteur maximale de l'image */
   object-fit: cover; /* Maintient les proportions */
+
+  /*
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  */
 }
 
 
 .film-detail__info {
-  flex: 2;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 20px;
-  background: #ffffff;
+  width: 70%;
+  padding: 30px;
+  margin: 50px;
   border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  max-height: 90vh;
-  overflow-y: auto; /* Permet le défilement si le contenu est trop long */
+  background-color: rgb(44, 44, 44);
 }
 
 .film-detail__title {
   font-size: 36px;
+  text-align: start;
   font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
+  color: white;
 }
 
 .film-detail__year,
@@ -122,7 +119,7 @@ export default {
 .film-detail__actors,
 .film-detail__overview {
   font-size: 18px;
-  color: #555;
+  color: white;
 }
 
 .rating {

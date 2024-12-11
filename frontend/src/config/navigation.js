@@ -21,12 +21,12 @@ export default [
     name: 'FilmDetail',
     path: '/films/:id',
     component: () => import('@/components/film/FilmDetail.vue'),
-    showInNavbar: false // Ne pas afficher dans la navbar
+    showInNavbar: false
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/NotFound.vue'),
-    showInNavbar: false // Ne pas afficher dans la navbar
+    showInNavbar: false
   }
 ];

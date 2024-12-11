@@ -4,12 +4,15 @@
 <template>
   <div>
     <h2>Rechercher un film</h2>
-    <input
-      type="text"
-      v-model="searchQuery"
-      @input="handleSearch"
-      placeholder="Entrez le titre du film"
-    />
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-bar"
+        v-model="searchQuery"
+        @input="handleSearch"
+        placeholder="Entrez le titre du film"
+      />
+    </div>
 
     <!-- Résultats de la recherche -->
     <div v-if="films.length" class="films-grid">
@@ -91,7 +94,32 @@ export default {
 .films-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+  gap: 30px;
+  margin-top: 30px;
+  margin-inline: 30px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  width: 45%;
+  height: 30px;
+  border-radius: 10px;
+  list-style: none;
+  border: none;
+  text-indent: 5px;
+}
+
+.search-bar:focus {
+  list-style: none;
+  outline: auto;
+}
+
+p, h2 {
+  color: white;
+  text-align: center
 }
 </style>

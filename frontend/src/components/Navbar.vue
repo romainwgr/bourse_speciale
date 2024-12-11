@@ -3,12 +3,15 @@
 -->
 <template>
   <nav>
-    <ul>
-      <!-- Filtre les liens avec showInNavbar à true -->
-      <li v-for="(link, index) in filteredLinks" :key="index">
-        <router-link :to="link.path">{{ link.name }}</router-link>
-      </li>
-    </ul>
+    <a href="/"><img src="@/assets/logo_test.png" alt="logo" class="logo"></a>
+    <div class="navlinks">
+      <ul>
+        <!-- Filtre les liens avec showInNavbar à true -->
+        <li v-for="(link, index) in filteredLinks" :key="index">
+          <router-link :to="link.path">{{ link.name }}</router-link>
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
@@ -32,21 +35,37 @@ export default {
 </script>
 
 <style scoped>
+
 nav {
-  background-color: #333;
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navlinks {
   padding: 1em;
+}
+
+.logo {
+  width: 75px;
+  height: 75px;
 }
 
 ul {
   list-style: none;
   display: flex;
-  gap: 1em;
+  gap: 1.5em;
   margin: 0;
   padding: 0;
 }
 
 li {
-  color: #fff;
+  color: white;
+  background-color: grey;
+  padding: 1em;
+  border-radius: 5px;
+  
 }
 
 a {
@@ -55,7 +74,6 @@ a {
 }
 
 a.router-link-exact-active {
-  font-weight: bold;
   text-decoration: underline;
 }
 </style>
