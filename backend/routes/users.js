@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const isAuthenticated = require('./authMiddleWare');
+const { isAuthenticated } = require('../routes/authMiddleWare'); // Import du middleware
 
 const usersController = require('../controllers/usersController');
 
@@ -12,6 +12,10 @@ router.post('/new', usersController.createUser);
 
 // Se connecter (authentification)
 router.post('/login', usersController.loginUser);
+
+// Endpoint pour récupérer le profil utilisateur
+router.get("/profile", isAuthenticated, usersController.getUserProfile);
+
 
 // // Récupérer un utilisateur par ID
 // router.get('/:id', usersController.getUserById);

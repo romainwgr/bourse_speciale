@@ -41,7 +41,6 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-
         // Validation des champs requis
         if (!email || !password) {
             console.warn("Email ou mot de passe manquant.");
@@ -80,16 +79,10 @@ const loginUser = async (req, res) => {
 
         console.log("Token généré avec succès :", token);
 
-        // Envoi du token dans un cookie sécurisé
-        res.cookie('authToken', token, {
-            httpOnly: true, // Le cookie n'est pas accessible via JavaScript côté client
-            secure: process.env.NODE_ENV === 'production', // Utiliser `secure` uniquement en production
-            sameSite: 'strict', // Empêche l'envoi du cookie dans des requêtes intersites
-            maxAge: 3600000, // Durée de vie : 1 heure (en millisecondes)
-        });
-
+        // Envoi du token dans la réponse JSON
         res.status(200).json({
             message: 'Connexion réussie.',
+            token, // Retourne le token directement dans la réponse
             user: {
                 id: user._id,
                 name: user.name,
@@ -102,6 +95,7 @@ const loginUser = async (req, res) => {
         res.status(500).json({ message: 'Erreur lors de la connexion.', error: err.message });
     }
 };
+
 
 
 
@@ -174,7 +168,6 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { getUserProfile };
 
 
 module.exports = {

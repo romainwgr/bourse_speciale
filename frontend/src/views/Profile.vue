@@ -1,7 +1,11 @@
 <template>
   <div class="profile-page">
+    <!-- Affichage du loader pendant la vérification de l'authentification -->
+    <div v-if="isLoading">
+      <p>Chargement...</p>
+    </div>
     <!-- Affichage conditionnel : utilisateur authentifié ou non -->
-    <div v-if="isAuthenticated">
+    <div v-else-if="isAuthenticated">
       <Profile :user="user" />
     </div>
     <div v-else>
@@ -10,7 +14,6 @@
   </div>
 </template>
 
-<!-- TODO Corriger l'appel a l'api voir si emit est optionnel ou non pour bien afficher la page de profil -->
 <script>
 import Authentication from "@/components/auth/Authentication.vue";
 import Profile from "@/components/profile/Profile.vue";
@@ -25,14 +28,22 @@ export default {
     return {
       isAuthenticated: false,
       user: null,
+      isLoading: true, // Ajout d'un état de chargement
     };
   },
   methods: {
     async checkAuthentication() {
       try {
+        const token = localStorage.getItem('token'); 
+
+        // Simuler un délai de 0,2 seconde
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         const response = await fetch("http://localhost:3000/api/users/profile", {
           method: "GET",
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`, // Ajoutez le token dans l'en-tête Authorization
+          },
         });
 
         if (response.ok) {
@@ -45,12 +56,15 @@ export default {
       } catch (error) {
         console.error("Erreur lors de la vérification de l'authentification :", error);
         this.isAuthenticated = false;
+      } finally {
+        this.isLoading = false; // Désactiver le mode chargement une fois terminé
       }
     },
     onAuthenticated(userData) {
       // Mise à jour de l'état après l'authentification
       this.user = userData;
       this.isAuthenticated = true;
+      this.isLoading = false; // Assurez-vous que le chargement est terminé
     },
   },
   mounted() {
