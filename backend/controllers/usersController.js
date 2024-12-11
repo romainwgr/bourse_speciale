@@ -41,8 +41,6 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        console.log("Requête reçue avec :", { email, password });
-
         // Validation des champs requis
         if (!email || !password) {
             console.warn("Email ou mot de passe manquant.");
@@ -63,51 +61,42 @@ const loginUser = async (req, res) => {
             password: user.password
         });
 
-        // Vérification du mot de passe directement avec Argon2
-        try {
-            console.log("Mot de passe en clair :", password);
-            console.log("Mot de passe haché :", user.password);
-            const isPasswordValid = await argon2.verify(user.password, password);
-            console.log("Résultat de la vérification du mot de passe :", isPasswordValid);
+        // Vérification du mot de passe avec Argon2
+        const isPasswordValid = await argon2.verify(user.password, password);
+        console.log("Résultat de la vérification du mot de passe :", isPasswordValid);
 
-            if (!isPasswordValid) {
-                console.warn("Mot de passe incorrect pour l'utilisateur :", email);
-                return res.status(401).json({ message: 'Mot de passe incorrect.' });
-            }
-        } catch (err) {
-            console.error("Erreur lors de la vérification du mot de passe :", err);
-            return res.status(500).json({ message: 'Erreur lors de la vérification du mot de passe.' });
+        if (!isPasswordValid) {
+            console.warn("Mot de passe incorrect pour l'utilisateur :", email);
+            return res.status(401).json({ message: 'Mot de passe incorrect.' });
         }
 
         // Génération d'un token JWT
-        try {
-            const token = jwt.sign(
-                { id: user._id, email: user.email }, // Payload
-                process.env.JWT_SECRET, // Clé secrète
-                { expiresIn: '1h' } // Expiration
-            );
+        const token = jwt.sign(
+            { id: user._id, email: user.email }, // Payload
+            process.env.JWT_SECRET, // Clé secrète
+            { expiresIn: '1h' } // Expiration
+        );
 
-            console.log("Token généré avec succès :", token);
+        console.log("Token généré avec succès :", token);
 
-            res.status(200).json({
-                message: 'Connexion réussie.',
-                token,
-                user: {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    public_name: user.public_name,
-                },
-            });
-        } catch (err) {
-            console.error("Erreur lors de la génération du token JWT :", err);
-            return res.status(500).json({ message: 'Erreur lors de la génération du token.' });
-        }
+        // Envoi du token dans la réponse JSON
+        res.status(200).json({
+            message: 'Connexion réussie.',
+            token, // Retourne le token directement dans la réponse
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                public_name: user.public_name,
+            },
+        });
     } catch (err) {
         console.error("Erreur lors de la connexion :", err);
         res.status(500).json({ message: 'Erreur lors de la connexion.', error: err.message });
     }
 };
+
+
 
 
 // Modifier le profil d'un utilisateur
@@ -162,10 +151,30 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const getUserProfile = async (req, res) => {
+    console.log('get userprofil lancé');
+    try {
+        const userId = req.user.id; // Récupère l'ID utilisateur du token décodé
+        const user = await User.findById(userId).select("-password"); // Exclut le mot de passe
+
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.error("Erreur lors de la récupération du profil :", err);
+        res.status(500).json({ message: "Erreur lors de la récupération du profil." });
+    }
+};
+
+
+
 module.exports = {
     createUser,
     loginUser,
     updateUserProfile,
+    getUserProfile,
     deleteUser,
 };
 

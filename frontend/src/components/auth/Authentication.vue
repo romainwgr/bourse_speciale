@@ -1,14 +1,18 @@
 <template>
   <div class="authentication">
-
     <div class="auth-content">
       <h1 class="title">Netflix</h1>
 
-      <SignIn v-if="currentTab === 'signIn'" />
-      <SignUp v-if="currentTab === 'signUp'" />
+      <SignIn 
+        v-if="currentTab === 'signIn'" 
+        @authenticated="handleAuthenticated" 
+      />
+      <SignUp 
+        v-if="currentTab === 'signUp'" 
+        @registered="handleRegistered" 
+      />
     </div>
 
-    <!-- Lien pour basculer entre connexion et inscription -->
     <p class="switch-tab">
       <span v-if="currentTab === 'signIn'">
         Pas encore inscrit ? 
@@ -34,8 +38,18 @@ export default {
   },
   data() {
     return {
-      currentTab: "signIn", // Par défaut, l'onglet Connexion est affiché
+      currentTab: "signIn",
     };
+  },
+  methods: {
+    handleAuthenticated(user) {
+      console.log("Utilisateur connecté :", user);
+      this.$emit("authenticated", user); // Propager l'événement au parent
+    },
+    handleRegistered(user) {
+      console.log("Utilisateur inscrit :", user);
+      this.currentTab = "signIn"; // Basculer vers la connexion après l'inscription
+    },
   },
 };
 </script>

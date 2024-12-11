@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateToken } = require('./authMiddleWare');
+const { isAuthenticated } = require('../routes/authMiddleWare'); // Import du middleware
 
 const usersController = require('../controllers/usersController');
 
@@ -13,11 +13,15 @@ router.post('/new', usersController.createUser);
 // Se connecter (authentification)
 router.post('/login', usersController.loginUser);
 
+// Endpoint pour récupérer le profil utilisateur
+router.get("/profile", isAuthenticated, usersController.getUserProfile);
+
+
 // // Récupérer un utilisateur par ID
 // router.get('/:id', usersController.getUserById);
 
 // Mettre à jour le profil de l'utilisateur
-router.put('/:id', authenticateToken,usersController.updateUserProfile);
+router.put('/:id', isAuthenticated,usersController.updateUserProfile);
 
 // // Mettre à jour l'image de profil
 // router.patch('/:id/image', usersController.updateProfileImage);
@@ -38,6 +42,6 @@ router.put('/:id', authenticateToken,usersController.updateUserProfile);
 // router.patch('/:id/phone', usersController.updatePhoneNumber);
 
 // Supprimer un utilisateur
-router.delete('/:id', authenticateToken,usersController.deleteUser);
+router.delete('/:id', isAuthenticated,usersController.deleteUser);
 
 module.exports = router;
