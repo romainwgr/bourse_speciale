@@ -7,7 +7,8 @@
     <!-- Liste des films -->
     <ul>
       <li v-for="film in films" :key="film._id">
-        {{ film.Series_Title }} ({{ film.Released_Year }})
+        <!-- {{ film.Series_Title }} ({{ film.Released_Year }}) -->
+          {{ film.originalTitle }}({{ film.startYear }})
       </li>
     </ul>
 

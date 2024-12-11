@@ -1,10 +1,10 @@
 const Film = require('../models/Film');
 const mongoose = require('mongoose');
 
-// Récupérer tous les films
+// Récupérer 100  films test
 const getAllFilms = async (req, res) => {
     try {
-        const films = await Film.find();
+        const films = await Film.find().limit(100); // Limite à 100 films
         res.json(films);
     } catch (err) {
         res.status(500).json({ message: 'Une erreur est survenue lors de la récupération des films.' });
@@ -21,7 +21,7 @@ const searchFilmByTitle = async (req, res) => {
         }
 
         const films = await Film.find({
-            Series_Title: { $regex: title, $options: 'i' },
+            originalTitle: { $regex: title, $options: 'i' },
         });
 
         if (films.length === 0) {

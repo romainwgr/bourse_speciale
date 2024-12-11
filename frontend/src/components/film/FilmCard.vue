@@ -5,11 +5,11 @@
 <template>
   <router-link :to="{ name: 'FilmDetail', params: { id: film._id } }" class="film-card">
     <img 
-      :src="film.Poster_Link" 
-      :alt="film.Series_Title" 
+      :src="film.poster_url" 
+      :alt="film.originalTitle" 
       class="film-card__image" 
     />
-    <h3 class="film-card__title">{{ film.Series_Title }}</h3>
+    <h3 class="film-card__title">{{ film.originalTitle }}</h3>
   </router-link>
 </template>
 
