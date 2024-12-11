@@ -8,7 +8,10 @@
     <ul>
       <li v-for="film in films" :key="film._id">
         <!-- {{ film.Series_Title }} ({{ film.Released_Year }}) -->
-          {{ film.originalTitle }}({{ film.startYear }})
+          {{ film.originalTitle }}({{ film.startYear }})  
+           <div v-if="film.poster_url">
+          <img :src="film.poster_url" :alt="film.originalTitle" style="width: 150px; height: auto;" />
+        </div>
       </li>
     </ul>
 
