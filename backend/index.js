@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Importer cors
+
+const cors = require('cors'); // Importer cors Cross origin
 
 require('dotenv').config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 // Middleware pour interpréter les requêtes JSON
 app.use(express.json());
 
+
 // Connexion à MongoDB avec Mongoose
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connecté à MongoDB Atlas"))
@@ -21,6 +23,10 @@ mongoose.connect(process.env.MONGO_URI)
 // Importer et utiliser les routes de l'API des films
 const filmRoutes = require('./routes/films.js');
 app.use('/api/films', filmRoutes);
+
+const usersRoutes = require('./routes/users.js');
+app.use('/api/users', usersRoutes);
+
 
 // Route de test pour vérifier que le serveur fonctionne
 app.get('/', (req, res) => {

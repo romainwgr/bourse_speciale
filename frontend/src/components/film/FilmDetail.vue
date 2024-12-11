@@ -7,22 +7,23 @@
     <!-- Section Image -->
     <div class="film-detail__image-container">
       <img 
-        :src="film.Poster_Link" 
-        :alt="film.Series_Title" 
+        :src="film.poster_url" 
+        :alt="film.originalTitle" 
         class="film-detail__image" 
       />
     </div>
 
     <!-- Section Infos -->
     <div class="film-detail__info">
-      <h2 class="film-detail__title">{{ film.Series_Title }}</h2>
-      <p class="film-detail__genre"><strong>Genre :</strong> {{ film.Genre }}</p>
-      <p class="film-detail__director"><strong>Réalisateur :</strong> {{ film.Director }}</p>
-      <p class="film-detail__actors"><strong>Acteurs :</strong> {{ film.Star1 }}, {{ film.Star2 }}, {{ film.Star3 }}, {{ film.Star4 }}</p>
-      <p class="film-detail__rating"><strong>Note IMDB :</strong> <span class="rating">{{ film.IMDB_Rating }}</span></p>
-      <p class="film-detail__year"><strong>Année de sortie :</strong> {{ film.Released_Year }}</p>
-      <p class="film-detail__runtime"><strong>Durée :</strong> {{ film.Runtime }}</p>
-      <p class="film-detail__overview"><strong>Résumé :</strong> {{ film.Overview }}</p>
+
+      <h2 class="film-detail__title">{{ film.originalTitle }}</h2>
+      <p class="film-detail__year"><strong>Année de sortie :</strong> {{ film.startYear }}</p>
+      <p class="film-detail__genre"><strong>Genres :</strong> {{ film.titleType }}</p>
+      <p class="film-detail__runtime"><strong>Durée :</strong> {{ film.runtime }}</p>
+      <!-- <p class="film-detail__rating"><strong>Note IMDB :</strong> <span class="rating">{{ film.IMDB_Rating }}</span></p> -->
+      <p class="film-detail__director"><strong>Réalisateur :</strong> {{ film.director }}</p>
+      <p class="film-detail__actors"><strong>Acteurs :</strong> {{ film.actors }}</p>
+      <!-- <p class="film-detail__overview"><strong>Résumé :</strong> {{ film.Overview }}</p> -->
     </div>
   </div>
 
@@ -80,10 +81,18 @@ export default {
 }
 
 .film-detail__image {
+
+  width: 70%; /* Réduit la largeur de l'image */
+  max-height: 400px; /* Limite la hauteur maximale de l'image */
+  object-fit: cover; /* Maintient les proportions */
+
+  /*
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   width: 300px;
+  */
 }
+
 
 .film-detail__info {
   display: flex;
