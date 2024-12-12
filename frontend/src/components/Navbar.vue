@@ -1,8 +1,5 @@
-<!--
-    Composant qui affiche la barre de navigation
--->
 <template>
-  <nav>
+  <nav :class="theme"> <!-- Application dynamique de la classe -->
     <a href="/"><img src="@/assets/logo_test.png" alt="logo" class="logo"></a>
     <div class="navlinks">
       <ul>
@@ -22,7 +19,7 @@ export default {
   name: 'Navbar',
   data() {
     return {
-      navigationLinks
+      navigationLinks,
     };
   },
   computed: {
@@ -35,12 +32,12 @@ export default {
 </script>
 
 <style scoped>
-
 nav {
   padding: 0.5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--bg-subtle); /* Couleur d'arrière-plan de la barre de navigation */
 }
 
 .navlinks {
@@ -61,19 +58,26 @@ ul {
 }
 
 li {
-  color: white;
-  background-color: grey;
+  color: var(--text-high); /* Couleur du texte des liens */
+  background-color: var(--ui-bg); /* Arrière-plan des liens */
   padding: 1em;
   border-radius: 5px;
-  
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transition pour hover */
+}
+
+li:hover {
+  background-color: var(--ui-hover); /* Arrière-plan au survol */
+  color: var(--text-low); /* Couleur du texte au survol */
 }
 
 a {
-  color: inherit;
+  color: inherit; /* Hérite de la couleur définie sur le parent */
   text-decoration: none;
 }
 
-a.router-link-exact-active {
-  text-decoration: underline;
+a.router-link-exact-active{
+text-decoration: underline;
+  font-weight: bold;
+  color: var(--text-high); /* Met en valeur le lien actif */
 }
 </style>

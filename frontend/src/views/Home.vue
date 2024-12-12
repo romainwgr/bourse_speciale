@@ -1,15 +1,12 @@
-<!-- 
-    Page d'accueil
--->
 <template>
   <div class="home">
     <h1>Bienvenue sur l'application de films</h1>
     <h2>Liste des films du moment</h2>
+
     <!-- Liste des films -->
-    <ul>
+    <ul class="film-list">
       <li v-for="film in films" :key="film._id">
-        <!-- {{ film.Series_Title }} ({{ film.Released_Year }}) -->
-          {{ film.originalTitle }}({{ film.startYear }})
+        {{ film.originalTitle }} ({{ film.startYear }})
       </li>
     </ul>
 
@@ -17,12 +14,11 @@
     <CustomButton text="Valider" color="red" @click="handleValidation" />
 
     <!-- Message d'erreur si la requête échoue -->
-    <p v-if="errorMessage">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -52,17 +48,58 @@ export default {
   },
 };
 </script>
+
 <style>
-body {
-  background-color: #1B1B1B;
+/* Styles de la page d'accueil */
+.home {
+  padding: 2em;
+  background-color: var(--bg-app); /* Arrière-plan principal */
+  color: var(--text-high-contrast); /* Couleur de texte */
+  font-family: Arial, sans-serif;
 }
-h1, h2 {
+
+h1 {
   text-align: center;
-  color: white;
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  color: var(--text-high-contrast); /* Texte principal */
 }
 
-.home li, .home h2 {
-  color: white;
+h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 1em;
+  color: var(--text-high-contrast); /* Texte secondaire */
 }
 
+/* Liste des films */
+.film-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.film-list li {
+  padding: 0.8em;
+  margin: 0.5em 0;
+  background-color: var(--ui-bg); /* Arrière-plan des éléments */
+  border: 1px solid var(--border-subtle); /* Bordure subtile */
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.film-list li:hover {
+  background-color: var(--ui-bg-hover); /* Arrière-plan au survol */
+  transform: scale(1.02); /* Effet de zoom au survol */
+  cursor: pointer;
+}
+
+/* Message d'erreur */
+.error-message {
+  text-align: center;
+  color: var(--text-low-contrast); /* Couleur d'erreur */
+  margin-top: 2em;
+  font-weight: bold;
+}
 </style>
