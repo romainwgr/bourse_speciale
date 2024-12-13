@@ -74,34 +74,63 @@
     </script>
     
     <style scoped>
+    /* Conteneur principal du profil */
     .profile {
       max-width: 600px;
       margin: 0 auto;
-      padding: 1em;
+      padding: 1.5em;
+      background-color: var(--ui-bg, #f4f4f4); /* Fond dynamique basé sur le thème */
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     
+    /* Section des détails du profil */
     .profile-details {
-      background-color: #f9f9f9;
-      padding: 1em;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: var(--ui-bg, #fff); /* Fond dynamique basé sur le thème */
+      padding: 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
     }
     
+    .profile-details:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Augmente l'ombre au survol */
+    }
+    
+    /* Boutons */
     button {
       display: block;
-      margin: 1em auto;
-      padding: 0.5em 1em;
+      margin: 1.5em auto;
+      padding: 0.75em 1.5em;
       border: none;
-      background-color: #333;
-      color: #fff;
-      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: var(--solid-bg, #333); /* Couleur dynamique */
+      color: var(--text-high-contrast, #fff); /* Couleur de texte dynamique */
+      border-radius: 6px;
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
     
     button:hover {
-      background-color: #555;
+      background-color: var(--solid-bg-hover, #555); /* Arrière-plan dynamique au survol */
+      transform: scale(1.05); /* Légère mise en avant au survol */
+    }
+    
+    button:active {
+      transform: scale(0.95); /* Effet de pression */
+    }
+    
+    button:focus {
+      outline: 2px solid var(--border-hover, #888); /* Ajoute un focus visible pour l'accessibilité */
+    }
+    
+    /* Ajout de transitions douces */
+    button, .profile-details {
+      transition: all 0.3s ease;
     }
     </style>
+    
     
      
 

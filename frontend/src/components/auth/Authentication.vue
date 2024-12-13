@@ -55,40 +55,79 @@ export default {
 </script>
 
 <style scoped>
+/* Titre principal */
 .title {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
-  margin-bottom: 20px;
+  color: var(--text-high-contrast, #000); /* Texte dynamique */
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
+/* Conteneur principal */
 .authentication {
-  max-width: 400px;
-  margin: auto;
+  max-width: 450px;
+  margin: 40px auto;
   text-align: center;
-}
-
-.auth-content {
-  border: 1px solid #ccc;
+  background-color: var(--ui-bg, #f9f9f9); /* Fond dynamique */
   padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.authentication:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombre plus intense au survol */
+}
+
+/* Contenu de l'authentification */
+.auth-content {
+  border: 1px solid var(--border, #ccc); /* Bordure dynamique */
+  padding: 25px;
+  border-radius: 12px;
+  background-color: var(--ui-bg, #fff); /* Fond dynamique */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Texte de basculement entre les onglets */
 .switch-tab {
   font-size: 14px;
-  color: #666;
+  color: var(--text-low-contrast, #666); /* Couleur dynamique pour le texte */
+  margin-top: 10px;
 }
 
 .switch-tab a {
-  color: #007bff;
+  color: var(--solid-bg, #007bff); /* Couleur dynamique pour les liens */
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
 .switch-tab a:hover {
   text-decoration: underline;
+  color: var(--solid-bg-hover, #0056b3); /* Couleur au survol */
+}
+
+/* Réactivité pour les petits écrans */
+@media (max-width: 600px) {
+  .authentication {
+    padding: 15px;
+  }
+
+  .auth-content {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .switch-tab {
+    font-size: 13px;
+  }
 }
 </style>

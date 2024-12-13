@@ -91,35 +91,69 @@ export default {
 </script>
 
 <style scoped>
+/* Conteneur principal pour les films */
 .films-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-  margin-inline: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px;
 }
 
+/* Conteneur pour la barre de recherche */
 .search-container {
   display: flex;
   justify-content: center;
+  margin: 20px 0;
 }
 
+/* Barre de recherche */
 .search-bar {
-  width: 45%;
-  height: 30px;
-  border-radius: 10px;
-  list-style: none;
-  border: none;
-  text-indent: 5px;
+  width: 50%;
+  height: 40px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border, #ccc);
+  background-color: var(--ui-bg, #f4f4f4);
+  color: var(--text-high-contrast, #000);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .search-bar:focus {
-  list-style: none;
-  outline: auto;
+  border-color: var(--border-hover, #888);
+  outline: none;
+  box-shadow: 0 0 5px var(--border-hover, #888);
 }
 
+/* Message de recherche en cours */
 p, h2 {
-  color: white;
-  text-align: center
+  color: var(--text-high-contrast, white);
+  text-align: center;
+}
+
+/* Texte pour aucun résultat */
+p {
+  font-style: italic;
+  color: var(--text-low-contrast, #aaa);
+}
+
+/* Animation pour la barre de recherche */
+.search-bar::placeholder {
+  color: var(--text-low-contrast, #bbb);
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* Ajout d'un effet de survol pour les cartes de films */
+.films-grid .film-card {
+  background-color: var(--ui-bg, #f9f9f9);
+  border-radius: 10px;
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.films-grid .film-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 </style>

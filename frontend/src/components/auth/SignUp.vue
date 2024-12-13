@@ -99,52 +99,69 @@ export default {
 </script>
 
 <style scoped>
+/* Conteneur principal */
 .signup {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border, #ddd); /* Bordure dynamique */
+  border-radius: 12px;
+  background-color: var(--ui-bg, #f9f9f9); /* Fond dynamique */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+.signup:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombre plus intense au survol */
+}
+
+/* Champs d'entrée */
 .signup input {
   width: 100%;
-  padding: 10px;
+  padding: 12px 15px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--border, #ccc);
+  border-radius: 8px;
   font-size: 16px;
-  box-sizing: border-box;
+  background-color: var(--ui-bg, #fff); /* Fond dynamique */
+  color: var(--text-high-contrast, #333); /* Couleur du texte dynamique */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .signup input:focus {
-  border-color: #007bff;
+  border-color: var(--border-hover, #007bff);
+  box-shadow: 0 0 5px var(--border-hover, rgba(0, 123, 255, 0.5));
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+/* Bouton d'inscription */
 .signup button {
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--solid-bg, #007bff);
+  color: var(--text-high-contrast, white);
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .signup button:hover {
-  background-color: #0056b3;
+  background-color: var(--solid-bg-hover, #0056b3);
+  transform: scale(1.03); /* Légère mise en avant au survol */
 }
 
+.signup button:active {
+  transform: scale(0.97); /* Effet de pression */
+}
+
+/* Messages de succès et d'erreur */
 .success,
 .error {
   margin-top: 15px;
@@ -154,11 +171,11 @@ export default {
 }
 
 .success {
-  color: green;
+  color: var(--success-color, green); /* Couleur dynamique pour succès */
 }
 
 .error {
-  color: red;
+  color: var(--error-color, red); /* Couleur dynamique pour erreurs */
 }
 
 /* Réactivité pour les petits écrans */
@@ -169,7 +186,7 @@ export default {
 
   .signup input {
     font-size: 14px;
-    padding: 8px;
+    padding: 10px;
   }
 
   .signup button {

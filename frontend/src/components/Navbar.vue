@@ -1,11 +1,21 @@
 <template>
-  <nav :class="theme"> <!-- Application dynamique de la classe -->
-    <a href="/"><img src="@/assets/logo_test.png" alt="logo" class="logo"></a>
+  <nav>
+    <a href="/"><img src="@/assets/logo_test.png" alt="logo" class="logo" /></a>
     <div class="navlinks">
       <ul>
-        <!-- Filtre les liens avec showInNavbar à true -->
-        <li v-for="(link, index) in filteredLinks" :key="index">
-          <router-link :to="link.path">{{ link.name }}</router-link>
+        <li>
+          <router-link to="/">Accueil</router-link>
+        </li>
+        <li>
+          <router-link to="/search">Recherche de films</router-link>
+        </li>
+        <li>
+          <router-link to="/profil">Profil</router-link>
+        </li>
+          
+        <!-- Problèmes pour cliquer sur le bouton -->
+        <li>
+          <theme-button />
         </li>
       </ul>
     </div>
@@ -13,40 +23,31 @@
 </template>
 
 <script>
-import navigationLinks from '@/config/navigation.js';
+import ThemeButton from "./ThemeButton.vue";
 
 export default {
   name: 'Navbar',
-  data() {
-    return {
-      navigationLinks,
-    };
-  },
-  computed: {
-    filteredLinks() {
-      // Filtre uniquement les liens où showInNavbar est true
-      return this.navigationLinks.filter(link => link.showInNavbar);
-    }
-  }
+  components: { ThemeButton},
+  inject: ['theme', 'toggleTheme'], // Récupère le thème et la méthode pour basculer
+
 };
+
 </script>
 
 <style scoped>
+/* Style pour la navigation */
 nav {
   padding: 0.5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--bg-subtle); /* Couleur d'arrière-plan de la barre de navigation */
+  background-color: var(--ui-bg); /* Couleur d'arrière-plan dynamique */
+  color: var(--text-high-contrast); /* Texte dynamique */
 }
 
+/* Liens de navigation */
 .navlinks {
   padding: 1em;
-}
-
-.logo {
-  width: 75px;
-  height: 75px;
 }
 
 ul {
@@ -58,26 +59,33 @@ ul {
 }
 
 li {
-  color: var(--text-high); /* Couleur du texte des liens */
-  background-color: var(--ui-bg); /* Arrière-plan des liens */
+  color: var(--text-high-contrast); /* Texte dynamique */
+  background-color: var(--ui-bg); /* Arrière-plan dynamique */
   padding: 1em;
   border-radius: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Transition pour hover */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Effet fluide */
 }
 
 li:hover {
-  background-color: var(--ui-hover); /* Arrière-plan au survol */
-  color: var(--text-low); /* Couleur du texte au survol */
+  background-color: var(--ui-bg-hover); /* Arrière-plan au survol */
+  color: var(--text-low-contrast); /* Texte au survol */
 }
 
 a {
-  color: inherit; /* Hérite de la couleur définie sur le parent */
+  color: inherit;
   text-decoration: none;
 }
 
-a.router-link-exact-active{
-text-decoration: underline;
+/* Lien actif */
+a.router-link-exact-active {
+  text-decoration: underline;
   font-weight: bold;
-  color: var(--text-high); /* Met en valeur le lien actif */
+  color: var(--text-high-contrast); /* Met en valeur le lien actif */
+}
+
+/* Logo */
+.logo {
+  width: 75px;
+  height: 75px;
 }
 </style>

@@ -70,7 +70,8 @@ export default {
   width: 100%;
   margin-top: 30px;
   border-radius: 15px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); /* Effet de flou moderne */
+  background-color: var(--ui-bg, rgba(44, 44, 44, 0.9)); /* Fond dynamique */
 }
 
 .film-detail__image-container {
@@ -81,18 +82,12 @@ export default {
 }
 
 .film-detail__image {
-
   width: 70%; /* Réduit la largeur de l'image */
   max-height: 400px; /* Limite la hauteur maximale de l'image */
   object-fit: cover; /* Maintient les proportions */
-
-  /*
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  width: 300px;
-  */
+  border-radius: 15px; /* Coins arrondis */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Ombre subtile */
 }
-
 
 .film-detail__info {
   display: flex;
@@ -101,14 +96,15 @@ export default {
   padding: 30px;
   margin: 50px;
   border-radius: 15px;
-  background-color: rgb(44, 44, 44);
+  background-color: var(--ui-bg-hover, #3a3a3a); /* Fond dynamique */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre subtile */
 }
 
 .film-detail__title {
   font-size: 36px;
   text-align: start;
   font-weight: bold;
-  color: white;
+  color: var(--text-high-contrast, white); /* Couleur dynamique */
 }
 
 .film-detail__year,
@@ -119,11 +115,11 @@ export default {
 .film-detail__actors,
 .film-detail__overview {
   font-size: 18px;
-  color: white;
+  color: var(--text-low-contrast, #ccc); /* Couleur dynamique pour les détails */
 }
 
 .rating {
-  color: #ffa500;
+  color: var(--accent-color, #ffa500); /* Couleur dynamique pour la note */
   font-weight: bold;
   font-size: 20px;
 }
@@ -132,6 +128,6 @@ export default {
   text-align: center;
   margin-top: 50px;
   font-size: 20px;
-  color: #666;
+  color: var(--text-low-contrast, #666); /* Couleur dynamique */
 }
 </style>

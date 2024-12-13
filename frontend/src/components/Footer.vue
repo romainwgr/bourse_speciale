@@ -3,7 +3,7 @@
 -->
 <template>
   <footer class="footer">
-    <p>&copy; 2024 - Bourse Spéciale - Toute reproduction formellement interdite sous peine de prison ferme pendant 2 ans et une amende de 75 000 euros (à partager équitablement avec les membres du groupe).</p>
+    <p>&copy; 2024 - Bourse Spéciale</p>
   </footer>
 </template>
 
@@ -32,12 +32,22 @@ main {
 }
 
 .footer {
-  background-color: #1A1A1A;
-  color: #fff;
-  padding: 0.5em;
+  background-color: var(--ui-bg, #1A1A1A); /* Fond dynamique */
+  color: var(--text-high-contrast, #fff); /* Couleur de texte dynamique */
+  padding: 1em;
   text-align: center;
   width: 100%;
   position: fixed;
   bottom: 0;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); /* Ombre subtile pour séparer visuellement */
+  font-size: 14px;
+  z-index: 1000; /* Assure que le footer est au-dessus des autres éléments */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transitions pour le fond et le texte */
+}
+
+/* Ajout d'un effet au survol */
+.footer:hover {
+  background-color: var(--ui-bg-hover, #333); /* Couleur dynamique au survol */
+  color: var(--text-low-contrast, #bbb); /* Texte au survol */
 }
 </style>
