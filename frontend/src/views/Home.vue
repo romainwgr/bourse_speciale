@@ -10,8 +10,6 @@
         <router-link :to="{ name: 'FilmDetail', params: { id: film._id } }" class="film-card">
         <img :src="film.poster_url" :alt="film.originalTitle" class="poster" />
         </router-link>
-
-        
       </div>
     </div>
 
@@ -25,7 +23,7 @@ import FilmCard from "@/components/film/FilmCard.vue";
 
 export default {
   components: {
-    FilmCard
+    FilmCard,
   },
   data() {
     return {
@@ -52,6 +50,11 @@ export default {
 </script>
 
 <style scoped>
+/* Styles pour le texte */
+h2, h3, p {
+  color: white; /* Texte en blanc */
+}
+
 .film-container {
   display: flex; /* Affichage horizontal */
   overflow-x: auto; /* Permet le défilement horizontal */
@@ -71,6 +74,16 @@ export default {
   width: 100%; /* Assure que l'image prend toute la largeur du conteneur */
   height: auto; /* Conserve les proportions de l'image */
   border-radius: 8px; /* Optionnel : pour arrondir les coins des images */
+}
+
+/* Optionnel : styles pour améliorer les liens */
+a {
+  text-decoration: none;
+  color: white; /* Liens en blanc */
+}
+
+a:hover {
+  color: #d1d1d1; /* Couleur légèrement différente au survol */
 }
 
 ul {
