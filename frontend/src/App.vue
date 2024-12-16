@@ -21,7 +21,7 @@
   
 <style>
 body {
-  background-color: #1B1B1B;
+  background-color: white;
   margin: 0;
 }
 </style>

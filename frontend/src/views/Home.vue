@@ -1,20 +1,19 @@
-<!-- 
-    Page d'accueil
--->
 <template>
-  <div class="home">
-    <h1>Bienvenue sur l'application de films</h1>
-    <h2>Liste des films du moment</h2>
-    <!-- Liste des films -->
-    <ul>
-      <li v-for="film in films" :key="film._id">
-        <!-- {{ film.Series_Title }} ({{ film.Released_Year }}) -->
-          {{ film.originalTitle }}({{ film.startYear }})
-      </li>
-    </ul>
+  <div>
+    <h2>Liste des films</h2>
+    <!-- Liste horizontale de films avec défilement -->
+    <div class="film-container">
+      <div v-for="film in films" :key="film._id" class="film-item">
+        <!-- Titre du film -->
+        <h3>{{ film.originalTitle }} ({{ film.startYear }})</h3>
+        <!-- Affichage de l'image du poster -->
+        <router-link :to="{ name: 'FilmDetail', params: { id: film._id } }" class="film-card">
+        <img :src="film.poster_url" :alt="film.originalTitle" class="poster" />
+        </router-link>
 
-    <!-- Bouton custom pour tester -->
-    <CustomButton text="Valider" color="red" @click="handleValidation" />
+        
+      </div>
+    </div>
 
     <!-- Message d'erreur si la requête échoue -->
     <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -22,8 +21,12 @@
 </template>
 
 <script>
+import FilmCard from "@/components/film/FilmCard.vue";
 
 export default {
+  components: {
+    FilmCard
+  },
   data() {
     return {
       films: [], // Tableau pour stocker les films récupérés
@@ -45,24 +48,33 @@ export default {
       console.error(error);
     }
   },
-  methods: {
-    handleValidation() {
-      alert("Validation réussie !");
-    },
-  },
 };
 </script>
-<style>
-body {
-  background-color: #1B1B1B;
-}
-h1, h2 {
-  text-align: center;
-  color: white;
+
+<style scoped>
+.film-container {
+  display: flex; /* Affichage horizontal */
+  overflow-x: auto; /* Permet le défilement horizontal */
+  padding: 10px 0;
+  gap: 20px; /* Espacement entre les éléments */
 }
 
-.home li, .home h2 {
-  color: white;
+.film-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px; /* Largeur minimum pour chaque film */
+  max-width: 200px; /* Limite la taille du film */
 }
 
+.poster {
+  width: 100%; /* Assure que l'image prend toute la largeur du conteneur */
+  height: auto; /* Conserve les proportions de l'image */
+  border-radius: 8px; /* Optionnel : pour arrondir les coins des images */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 </style>
