@@ -1,35 +1,29 @@
 <template>
-
-<div>
-    <h1>Galerie d'Images</h1>
-    <ImageSlider />
-  </div>
-
-  <div class="main-content">
-    <h2>Liste des films</h2>
-    <div class="film-container">
-      <div v-for="film in films" :key="film._id" class="film-item">
-        <h3>{{ film.originalTitle }} ({{ film.startYear }})</h3>
-        <router-link :to="{ name: 'FilmDetail', params: { id: film._id } }" class="film-card">
-          <img :src="film.poster_url" :alt="film.originalTitle" class="poster" />
-        </router-link>
+    <div class="image-slider">
+      <div class="slider-container">
+        <div
+          v-for="(image, index) in images"
+          :key="index"
+          class="slider-image"
+          :class="{ active: index === currentImageIndex, next: index === nextImageIndex }"
+          :style="{ backgroundImage: `url(${image})` }"
+        ></div>
       </div>
+      <button @click="previousImage" class="nav-button previous-button">‹</button>
+      <button @click="nextImage" class="nav-button next-button">›</button>
     </div>
-    <p v-if="errorMessage">{{ errorMessage }}</p>
-  </div>
-</template>
-
-
-
-<script>
-import ImageSlider from "@/components/ImageSlider.vue";
-
+  </template>
+  
+  
+  
+  
+  
+  <script>
 export default {
+  name: "ImageSlider",
   data() {
     return {
-      films: [],
-      errorMessage: "",
-      backgroundImages: [
+      images: [
         "https://alarencontreduseptiemeart.com/wp-content/uploads/2014/12/Citizen-Kane-3.jpg",
         "https://i.redd.it/the-shawshank-redemption-1994-v0-89w86dd84lpd1.jpg?width=1280&format=pjpg&auto=webp&s=8b1123e48aa750065503b7d5e91df3be66c92fb0",
         "https://media.vanityfair.fr/photos/60d34fef828a7f42e233bd09/16:9/w_1280,c_limit/vf_casablanca_slider_9411.jpeg",
@@ -52,43 +46,64 @@ export default {
         "https://laac-auvergnerhonealpes.org/wp-content/uploads/2017/03/OverlookHotelShining.png",
       ],
       currentImageIndex: 0,
+      nextImageIndex: null,
+      autoSlide: null, // Variable pour stocker l'intervalle
     };
   },
-
-  
-  async created() {
-    try {
-      const response = await fetch("http://localhost:3000/api/films");
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+  methods: {
+    startAutoSlide() {
+      // Démarre ou redémarre l'auto-slide
+      if (this.autoSlide) {
+        clearInterval(this.autoSlide);
       }
-      const data = await response.json();
-      this.films = data;
-    } catch (error) {
-      this.errorMessage = "Erreur lors de la récupération des films : " + error.message;
-    }
+      this.autoSlide = setInterval(this.nextImage, 7500);
+    },
+    nextImage() {
+      this.nextImageIndex = (this.currentImageIndex + 1) % this.images.length;
+      setTimeout(() => {
+        this.currentImageIndex = this.nextImageIndex;
+        this.nextImageIndex = null;
+      }, 500); // Durée de la transition
+      this.startAutoSlide(); // Redémarre l'auto-slide après l'interaction
+    },
+    previousImage() {
+      this.nextImageIndex =
+        (this.currentImageIndex - 1 + this.images.length) % this.images.length;
+      setTimeout(() => {
+        this.currentImageIndex = this.nextImageIndex;
+        this.nextImageIndex = null;
+      }, 500); // Durée de la transition
+      this.startAutoSlide(); // Redémarre l'auto-slide après l'interaction
+    },
   },
-
-  components: {
-    ImageSlider,
+  mounted() {
+    this.startAutoSlide(); // Démarrage initial de l'auto-slide
+  },
+  beforeDestroy() {
+    if (this.autoSlide) {
+      clearInterval(this.autoSlide); // Nettoyage de l'auto-slide
+    }
   },
 };
 </script>
 
-      
-
-
-
+  
 <style scoped>
-/* Wrapper pour contenir les deux images */
-.dynamic-background-wrapper {
+.image-slider {
   position: relative;
-  height: 50vh; /* Occupe la moitié de la hauteur de la fenêtre */
+  width: 100%;
+  height: 620px;
   overflow: hidden;
+  margin: auto;
 }
 
-/* Style de base pour les images de fond */
-.dynamic-background {
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -96,59 +111,47 @@ export default {
   height: 100%;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-
-  /* Transition fluide pour le mouvement */
-  transition: transform 1s ease-in-out;
+  opacity: 1;
+  transform: translateX(100%);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  z-index: 0;
 }
 
-/* Style spécifique pour l'image suivante */
-.dynamic-background.next {
-  z-index: 1; /* Toujours au-dessus de l'image actuelle */
+.slider-image.active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 1;
 }
 
-.main-content {
-  background-color: black; /* Fond noir */
-  color: white; /* Texte en blanc */
-  padding: 20px;
-  min-height: 50vh; /* Reste au moins aussi haut que la demi-page restante */
+.slider-image.next {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
 }
 
-.film-container {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px 0;
-  gap: 20px;
-}
-
-.film-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 150px;
-  max-width: 200px;
-}
-
-.poster {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-h2, h3, p {
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
   color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 24px;
+  z-index: 10;
 }
 
-a {
-  text-decoration: none;
-  color: white;
+.previous-button {
+  left: 20px;
 }
 
-a:hover {
-  color: #d1d1d1;
+.next-button {
+  right: 20px;
+}
+
+.nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 </style>
-
-      
-
-
