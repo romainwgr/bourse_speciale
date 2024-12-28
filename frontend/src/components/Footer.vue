@@ -3,7 +3,7 @@
 -->
 <template>
   <footer class="footer">
-    <p>&copy; 2024 - Bourse Spéciale - Toute reproduction formellement interdite sous peine de prison ferme pendant 2 ans et une amende de 75 000 euros (à partager équitablement avec les membres du groupe).</p>
+    <p>&copy; 2024 - Bourse Spéciale</p>
   </footer>
 </template>
 

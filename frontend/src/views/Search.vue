@@ -21,6 +21,7 @@
         :key="film._id" 
         :film="film" 
       />
+      
     </div>
 
     <!-- Message si aucun résultat trouvé -->
@@ -38,35 +39,38 @@ import FilmCard from "@/components/film/FilmCard.vue";
 
 export default {
   components: {
-    FilmCard
+    FilmCard,
   },
   data() {
     return {
-      searchQuery: "",
-      films: [],
-      isLoading: false,
-      searchTimeout: null
+      searchQuery: "", // Requête de recherche entrée par l'utilisateur
+      films: [], // Résultats de la recherche
+      isLoading: false, // Indicateur de chargement
+      searchTimeout: null, // Timeout pour limiter les appels API
     };
   },
   methods: {
     handleSearch() {
       if (this.searchTimeout) {
-        clearTimeout(this.searchTimeout);
+        clearTimeout(this.searchTimeout); // Réinitialise le timeout si une nouvelle saisie est effectuée
       }
 
+      // Si la barre de recherche est vide
       if (!this.searchQuery.trim()) {
         this.films = [];
         return;
       }
 
+      // Délai avant de lancer la recherche pour éviter trop de requêtes
       this.searchTimeout = setTimeout(() => {
         this.searchFilm();
-      }, 500);
+      }, 500); // 500ms de délai
     },
     async searchFilm() {
-      this.isLoading = true;
+      this.isLoading = true; // Active l'indicateur de chargement
 
       try {
+        // Appel API mis à jour pour correspondre à votre nouvelle base de données
         const response = await fetch(
           `http://localhost:3000/api/films/search?title=${encodeURIComponent(
             this.searchQuery
@@ -78,15 +82,22 @@ export default {
         }
 
         const data = await response.json();
-        this.films = data;
+
+        // Ajoute une vérification pour s'assurer que la réponse a une structure attendue
+        if (Array.isArray(data)) {
+          this.films = data; // Stocke les films retournés
+        } else {
+          console.warn("Structure inattendue de la réponse API :", data);
+          this.films = [];
+        }
       } catch (error) {
         console.error("Erreur lors de la recherche :", error);
-        this.films = [];
+        this.films = []; // Vide les résultats en cas d'erreur
       } finally {
-        this.isLoading = false;
+        this.isLoading = false; // Désactive l'indicateur de chargement
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -102,24 +113,32 @@ export default {
 .search-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .search-bar {
   width: 45%;
-  height: 30px;
+  height: 40px;
   border-radius: 10px;
-  list-style: none;
-  border: none;
-  text-indent: 5px;
+  border: 1px solid #ccc;
+  text-indent: 10px;
+  font-size: 16px;
 }
 
 .search-bar:focus {
-  list-style: none;
-  outline: auto;
+  outline: 2px solid #61dafb;
 }
 
-p, h2 {
+p,
+h2 {
   color: white;
-  text-align: center
+  text-align: center;
+}
+
+.info-limit {
+  text-align: center;
+  font-size: 14px;
+  color: gray;
+  margin-top: 10px;
 }
 </style>
