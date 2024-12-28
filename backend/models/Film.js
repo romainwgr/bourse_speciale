@@ -1,40 +1,149 @@
-// //backend/models/Film.js
-// const mongoose = require('mongoose');
-
-// const filmSchema = new mongoose.Schema({
-//     Poster_Link: String,
-//     Series_Title: String,
-//     Released_Year: Number, // Changer le type pour un entier (year)
-//     Certificate: String,
-//     Runtime: String, // La durée est au format '142 min', donc String
-//     Genre: String,
-//     IMDB_Rating: Number,
-//     Overview: String,
-//     Meta_score: Number,
-//     Director: String,
-//     Star1: String,
-//     Star2: String,
-//     Star3: String,
-//     Star4: String,
-//     No_of_Votes: Number,
-//     Gross: String // La valeur contient des virgules, donc String
-// });
-
-// module.exports = mongoose.model('films', filmSchema);
 const mongoose = require('mongoose');
 
-// Définir un nouveau schéma pour les films
 const filmSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId, // Identifiant unique
-    titleType: String,                  // Type de titre, par exemple "movie"
-    originalTitle: String,              // Titre original du film
-    startYear: String,                  // Année de début (resté String selon les données fournies)
-    genres: String,                     // Genres au format chaîne, séparés par des virgules
-    poster_url: String,                 // URL de l'affiche
-    actors: String,                     // Acteurs (format texte)
-    director: String,                   // Nom du réalisateur
-    runtime: String                     // Durée (format texte)
+  _id: mongoose.Schema.Types.ObjectId, // Identifiant unique MongoDB
+  adult: { 
+        type: Boolean, 
+        required: true 
+  },
+  belongs_to_collection: {
+        id: { 
+            type: Number
+        },
+        name: { 
+            type: String
+        },
+        poster_path: { 
+            type: String
+        },
+        backdrop_path: { 
+            type: String
+        },
+  },
+  budget: { 
+        type: Number, 
+        required: true
+  },
+  genres: [
+    {
+        id: { 
+            type: Number,
+            required: true
+        },
+        name: { 
+            type: String, 
+            required: true 
+        },
+    },
+  ],
+  homepage: { 
+        type: String
+  },
+  id: { 
+        type: Number, 
+        required: true, 
+        unique: true
+  },
+  imdb_id: { 
+        type: String
+  },
+  original_language: { 
+        type: String, 
+        required: true
+  },
+  original_title: { 
+        type: String, 
+        required: true
+  },
+  overview: { 
+      type: String
+  },
+  popularity: { 
+        type: Number, 
+        required: true
+  },
+  poster_path: { 
+     type: String
+  },
+  production_companies: [
+    {
+      name: { 
+        type: String, 
+        required: true
+      },
+      id: { 
+        type: Number, 
+        required: true
+      },
+    },
+  ],
+  production_countries: [
+    {
+      iso_3166_1: { 
+        type: String, 
+        required: true
+      },
+      name: { 
+        type: String, 
+        required: true 
+      },
+    },
+  ],
+  release_date: { 
+    type: Date
+  },
+  revenue: { 
+    type: Number, 
+    required: true
+  },
+  runtime: { 
+    type: Number 
+  },
+  spoken_languages: [
+    {
+      iso_639_1: { 
+        type: String, 
+        required: true 
+      },
+      name: { 
+        type: String, 
+        required: true 
+      },
+    },
+  ],
+  status: {
+    type: String, 
+    required: true
+  },
+  title: { 
+    type: String, 
+    required: true
+  },
+  video: { 
+    type: Boolean, 
+    required: true 
+  },
+  vote_average: { 
+    type: Number, 
+    required: true 
+  },
+  vote_count: { 
+    type: Number, 
+    required: true 
+  },
+  actors: [
+    {
+      type: Number, // Référence aux IDs numériques des acteurs
+      ref: 'Actor', // Référence à la collection Actors
+    },
+  ],
+  directors: [
+    {
+      type: Number, // Référence aux IDs numériques des directeurs
+      ref: 'Director', // Référence à la collection Directors
+    },
+  ],
+  
 });
 
-// Exporter le modèle Mongoose
-module.exports = mongoose.model('film2', filmSchema);
+module.exports = mongoose.model('Film', filmSchema);

@@ -27,6 +27,12 @@ app.use('/api/films', filmRoutes);
 const usersRoutes = require('./routes/users.js');
 app.use('/api/users', usersRoutes);
 
+const actorsRoutes = require('./routes/actors.js');
+app.use('/api/actors', actorsRoutes);
+
+const directorsRoutes = require('./routes/directors.js');
+app.use('/api/directors', directorsRoutes);
+
 
 // Route de test pour vérifier que le serveur fonctionne
 app.get('/', (req, res) => {
