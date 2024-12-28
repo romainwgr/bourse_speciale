@@ -3,7 +3,7 @@
 -->
 <template>
   <footer class="footer">
-    <p>&copy; 2024 - Bourse Spéciale - Toute reproduction formellement interdite sous peine de prison ferme pendant 2 ans et une amende de 75 000 euros (à partager équitablement avec les membres du groupe).</p>
+    <p>&copy; 2024 - Bourse Spéciale</p>
   </footer>
 </template>
 
@@ -32,10 +32,12 @@ main {
 }
 
 .footer {
-  background-color: grey;
+  background-color: #1A1A1A;
   color: #fff;
-  margin-block: 10px;
   padding: 0.5em;
   text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 </style>

@@ -7,7 +7,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Ignorer .env si tu utilises des variables d'environnement sensibles
-.env
-
+# On l'ignore pas pour l'instant car flm de le reload chaque fois
 # Autres fichiers spécifiques à ignorer, si nécessaire
 dist/
+
+.DS_Store
