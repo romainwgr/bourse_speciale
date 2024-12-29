@@ -10,8 +10,16 @@
       </div>
       <div class="profile-info">
         <h1>{{ user.name }}</h1>
+        <h2>Pseudo : {{ user.public_name }}</h2>
+        <h2>E-mail : {{ user.email }}</h2>
       </div>
     </div>
+    <div class="liked-movies">
+      <h2>Films favoris :</h2>
+      <!-- Compléter avec les films favoris -->
+      <p>Aucun film favoris !</p>
+    </div>
+
   </template>
   
   <script>
@@ -24,7 +32,7 @@
         type: Object,
         required: true,
         default: () => ({
-          name: "Nom non disponible",
+          name: "Nom indisponible",
           profil_image: "", // Image par défaut définie ailleurs
         }),
       },
@@ -38,11 +46,15 @@
   </script>
   
   <style scoped>
+
+  /* User profile */
+
   .user-profile {
     display: flex;
     align-items: center;
     gap: 15px;
     padding: 20px;
+    color: #333;
     border: 1px solid #ccc;
     border-radius: 8px;
     max-width: 400px;
@@ -56,12 +68,38 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #007bff;
+    align-items: center;
   }
   
   .profile-info h1 {
     font-size: 20px;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .profile-info h2 {
+    font-size: 16px;
     margin: 0;
-    color: #333;
+  }
+
+  /* liked */
+
+  .liked-movies {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    margin-inline: 30px;
+    background-color: #f9f9f9;
+  }
+
+  .liked-movies h2, .liked-movies p {
+    text-align: center;
+  }
+
+  .liked-movie-list li {
+    color:#333;
   }
   </style>
   
