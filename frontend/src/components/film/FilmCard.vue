@@ -1,11 +1,23 @@
 <!--
     Composant qui affiche un film qu'on trouve dans la page d'accueil
     Il l'affiche en petit avec une image et un titre 
---><template>
-  <router-link :to="{ name: 'FilmDetail', params: { id: film._id } }" class="film-card">
-    <img :src="'https://image.tmdb.org/t/p/original' + film.poster_path" :alt="film.original_title" class="film-card__image" />
+-->
+<template>
+  <router-link 
+    v-if="filmId" 
+    :to="{ name: 'FilmDetail', params: { id: filmId } }" 
+    class="film-card"
+  >
+    <img 
+      :src="'https://image.tmdb.org/t/p/original' + film.poster_path" 
+      :alt="film.original_title" 
+      class="film-card__image" 
+    />
     <h3 class="film-card__title">{{ film.original_title }}</h3>
   </router-link>
+  <div v-else class="error">
+    <p>Film ID non défini.</p>
+  </div>
 </template>
 
 <script>
@@ -16,11 +28,17 @@ export default {
       required: true,
     },
   },
+  computed: {
+    filmId() {
+      // Vérifie que le film et son ID sont bien définis
+      return this.film?._id || null;
+    },
+  },
 };
 </script>
 
 <style scoped>
- .film-card {
+.film-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,4 +71,9 @@ export default {
   white-space: nowrap; /* Évite que le texte prenne plusieurs lignes */
 }
 
+.error {
+  color: red;
+  text-align: center;
+  font-size: 14px;
+}
 </style>
