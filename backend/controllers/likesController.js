@@ -5,16 +5,19 @@ const Like = require('../models/Like');
 const like = async (req, res) => {
     try{
         const userId = req.user.id;
-        const movieId = req.params.id;
+        const filmId = req.params.id;
+        console.log(userId);
+        console.log(filmId);
+        console.log('saluttt')
       
         // Vérifie si le "like" existe déjà
-        const existingLike = await Like.findOne({ userId, movieId });
+        const existingLike = await Like.findOne({ userId, filmId });
         if (existingLike) {
           return res.status(400).json({ message: 'Vous avez déjà aimé ce film.' });
         }
       
         // Ajoute un nouveau "like"
-        const newLike = new Like({ userId, movieId });
+        const newLike = new Like({ userId, filmId });
         await newLike.save();
       
         res.status(201).json({ message: 'Film aimé avec succès.' });
@@ -28,10 +31,10 @@ const like = async (req, res) => {
 const unlike = async (req,res) => {
     try{
         const userId = req.user.id;
-        const movieId = req.params.id;
+        const filmId = req.params.id;
       
         // Supprime le "like"
-        const result = await Like.findOneAndDelete({ userId, movieId });
+        const result = await Like.findOneAndDelete({ userId, filmId });
         if (!result) {
           return res.status(404).json({ message: 'Like non trouvé.' });
         }
@@ -46,10 +49,10 @@ const unlike = async (req,res) => {
 const isLiked = async (req,res) => {
     try{
         const userId = req.user.id;
-        const movieId = req.params.id;
+        const filmId = req.params.id;
       
         // Vérifie l'existence du "like"
-        const isLiked = await Like.exists({ userId, movieId });
+        const isLiked = await Like.exists({ userId, filmId });
         res.status(200).json({ isLiked });
     }
     catch(e){

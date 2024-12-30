@@ -9,7 +9,7 @@
     class="film-card"
   >
     <img 
-      :src="'https://image.tmdb.org/t/p/original' + film.poster_path" 
+      :src="film.poster_url" 
       :alt="film.original_title" 
       class="film-card__image" 
     />

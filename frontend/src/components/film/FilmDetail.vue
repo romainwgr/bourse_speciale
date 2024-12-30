@@ -7,7 +7,7 @@
     <!-- Section Image -->
     <div class="film-detail__image-container">
       <img 
-        :src="film.poster_path ? `https://image.tmdb.org/t/p/original${film.poster_path}` : 'https://via.placeholder.com/300x450'" 
+        :src="film.poster_url"
         :alt="film.original_title" 
         class="film-detail__image" 
       />
