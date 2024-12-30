@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connecté à MongoDB Atlas"))
   .catch((err) => console.error("Erreur de connexion à MongoDB :", err));
 
+
 // Importer et utiliser les routes de l'API des films
 const filmRoutes = require('./routes/films.js');
 app.use('/api/films', filmRoutes);
@@ -32,6 +33,9 @@ app.use('/api/actors', actorsRoutes);
 
 const directorsRoutes = require('./routes/directors.js');
 app.use('/api/directors', directorsRoutes);
+
+const likesRoutes = require('./routes/likes.js');
+app.use('/api/likes', likesRoutes);
 
 
 // Route de test pour vérifier que le serveur fonctionne
