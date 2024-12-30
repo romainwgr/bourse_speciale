@@ -18,6 +18,8 @@ const getAllFilms = async (req, res) => {
 const searchFilmByTitle = async (req, res) => {
     try {
         
+        const { title } = req.query;
+
         if (!title) {
             return res.status(400).json({ message: 'Le paramètre "title" est requis.' });
         }
