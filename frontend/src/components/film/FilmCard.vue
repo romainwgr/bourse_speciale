@@ -1,9 +1,8 @@
-<!--
-    Composant qui affiche un film qu'on trouve dans la page d'accueil
-    Il l'affiche en petit avec une image et un titre 
---><template>
+<template>
   <router-link :to="{ name: 'FilmDetail', params: { id: film._id } }" class="film-card">
-    <img :src="'https://image.tmdb.org/t/p/original' + film.poster_path" :alt="film.original_title" class="film-card__image" />
+    <div class="film-card__image-container">
+      <img :src="film.poster_path" :alt="film.original_title" class="film-card__image" />
+    </div>
     <h3 class="film-card__title">{{ film.original_title }}</h3>
   </router-link>
 </template>
@@ -20,7 +19,7 @@ export default {
 </script>
 
 <style scoped>
- .film-card {
+.film-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,11 +36,22 @@ export default {
   transform: scale(1.05); /* Zoom subtil au survol */
 }
 
-.film-card__image {
-  width: 100%; /* L'image prend toute la largeur du conteneur */
-  height: auto; /* Maintient les proportions de l'image */
+.film-card__image-container {
+  width: 150px; /* Largeur fixe pour toutes les images */
+  height: 225px; /* Hauteur fixe pour toutes les images */
+  overflow: hidden; /* Cache les parties débordantes de l'image */
   border-radius: 8px; /* Coins arrondis */
   margin-bottom: 10px; /* Espace entre l'image et le titre */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000; /* Couleur de fond au cas où l'image ne charge pas */
+}
+
+.film-card__image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* L'image couvre toute la zone sans déformer */
 }
 
 .film-card__title {
@@ -52,5 +62,4 @@ export default {
   overflow: hidden;
   white-space: nowrap; /* Évite que le texte prenne plusieurs lignes */
 }
-
 </style>
