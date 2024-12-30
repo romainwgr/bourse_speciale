@@ -26,8 +26,8 @@ router.put('/:id', isAuthenticated,usersController.updateUserProfile);
 // // Mettre à jour l'image de profil
 // router.patch('/:id/image', usersController.updateProfileImage);
 
-// // Récupérer les films aimés
-// router.get('/:id/liked-movies', usersController.getLikedMovies);
+// Récupérer les films aimés
+router.get('/profile/liked-films', isAuthenticated,usersController.getLikedFilms);
 
 // // Ajouter un film aux films aimés
 // router.post('/:id/liked-movies', usersController.addLikedMovie);
@@ -43,5 +43,6 @@ router.put('/:id', isAuthenticated,usersController.updateUserProfile);
 
 // Supprimer un utilisateur
 router.delete('/:id', isAuthenticated,usersController.deleteUser);
+
 
 module.exports = router;

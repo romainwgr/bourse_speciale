@@ -6,7 +6,7 @@
       </div>
       <!-- Affichage conditionnel : utilisateur authentifié ou non -->
       <div v-else-if="isAuthenticated">
-        <Profile :user="user" />
+        <Profile :user="user"  @logout="handleLogOut"/>
       </div>
       <div v-else>
         <Authentication @authenticated="onAuthenticated" />
@@ -32,12 +32,24 @@
       };
     },
     methods: {
+      handleLogOut() {
+        // Supprime le token
+        localStorage.removeItem('token');
+
+        this.user = null;
+
+        // Redirige vers la page de connexion
+        this.isAuthenticated = false;
+    },
       async checkAuthentication() {
         try {
           const token = localStorage.getItem('token'); 
   
           // Simuler un délai de 0,2 seconde
           await new Promise(resolve => setTimeout(resolve, 200));
+
+          console.log(this.user); // Vérifie que les données incluent ce dont tu as besoin
+
   
           const response = await fetch("http://localhost:3000/api/users/profile", {
             method: "GET",

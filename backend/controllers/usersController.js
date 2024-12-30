@@ -1,12 +1,12 @@
 const User = require('../models/User');
 const argon2 = require('argon2'); 
 const jwt = require('jsonwebtoken');
-
+const Like = require('../models/Like')
+const Film = require('../models/Film');
 // Créer un utilisateur (inscription)
 const createUser = async (req, res) => {
     try {
         const { name, public_name, email, password } = req.body;
-
         // Validation des champs requis
         if (!name || !public_name || !email || !password) {
             return res.status(400).json({ message: 'Tous les champs obligatoires doivent être remplis.' });
@@ -168,6 +168,29 @@ const getUserProfile = async (req, res) => {
     }
 };
 
+const getLikedFilms = async(req,res) => {
+    try {
+        const userId = req.user.id;
+    
+        // Récupère les 5 films aimés les plus récents
+        const recentLikedFilms = await Like.find({ userId })
+          .populate('filmId') // Jointure avec la collection Movie
+          .sort({ createdAt: -1 }) // Trie par date décroissante (-1 pour décroissant)
+          .limit(5); // Limite à 5 films
+    
+        // const films = recentLikedFilms.map((like) => like.filmId);
+
+        // Filtrer les films nuls
+        const films = recentLikedFilms
+        .map((like) => like.filmId) // Extraire les films
+
+        res.status(200).json(films);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des films récents aimés :", error.message);
+        res.status(500).json({ message: "Erreur interne du serveur.", error: error.message });
+      }
+}
+
 
 
 module.exports = {
@@ -176,6 +199,7 @@ module.exports = {
     updateUserProfile,
     getUserProfile,
     deleteUser,
+    getLikedFilms,
 };
 
 
