@@ -55,11 +55,22 @@ export default {
   transform: scale(1.05); /* Zoom subtil au survol */
 }
 
-.film-card__image {
-  width: 100%; /* L'image prend toute la largeur du conteneur */
-  height: auto; /* Maintient les proportions de l'image */
+.film-card__image-container {
+  width: 150px; /* Largeur fixe pour toutes les images */
+  height: 225px; /* Hauteur fixe pour toutes les images */
+  overflow: hidden; /* Cache les parties débordantes de l'image */
   border-radius: 8px; /* Coins arrondis */
   margin-bottom: 10px; /* Espace entre l'image et le titre */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000; /* Couleur de fond au cas où l'image ne charge pas */
+}
+
+.film-card__image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* L'image couvre toute la zone sans déformer */
 }
 
 .film-card__title {
@@ -76,4 +87,5 @@ export default {
   text-align: center;
   font-size: 14px;
 }
+
 </style>

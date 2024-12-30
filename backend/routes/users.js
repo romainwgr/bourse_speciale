@@ -44,4 +44,5 @@ router.get('/profile/liked-films', isAuthenticated,usersController.getLikedFilms
 // Supprimer un utilisateur
 router.delete('/:id', isAuthenticated,usersController.deleteUser);
 
+
 module.exports = router;
