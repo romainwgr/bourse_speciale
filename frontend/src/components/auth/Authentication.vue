@@ -62,11 +62,13 @@ export default {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #fff;
 }
 
 .authentication {
   max-width: 400px;
   margin: auto;
+  margin-block: 100px;
   text-align: center;
 }
 
