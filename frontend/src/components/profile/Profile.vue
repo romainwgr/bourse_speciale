@@ -30,6 +30,14 @@
       <h2>À regarder plus tard :</h2>
       <p>Vous avez tout visionné !</p>
     </div>
+    <div class="logout">
+      <button
+        :style="{ backgroundColor: 'red', color: 'white' }"
+        @click="handleLogOut"
+      >
+        Se déconnecter
+      </button>
+    </div>
   </div>
 </template>
 
@@ -48,6 +56,12 @@ export default {
         name: "Nom indisponible",
         profil_image: "",
       }),
+    },
+  },
+  methods: {
+    handleLogOut() {
+      
+      this.$emit("logout")
     },
   },
   data() {
