@@ -14,10 +14,15 @@
         <h2>E-mail : {{ user.email }}</h2>
       </div>
     </div>
-    <div class="liked-movies">
+    <div class="movie-profile-section">
       <h2>Films favoris :</h2>
       <!-- Compléter avec les films favoris -->
       <p>Aucun film favoris !</p>
+    </div>
+    <div class="movie-profile-section">
+      <h2>À regarder plus tard :</h2>
+      <!-- Compléter avec les films à regarder plus tard -->
+      <p>Vous avez tout visionné !</p>
     </div>
 
   </template>
@@ -84,21 +89,20 @@
 
   /* liked */
 
-  .liked-movies {
+  .movie-profile-section {
     display: flex;
     flex-direction: column;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 30px;
     margin-top: 30px;
     margin-inline: 30px;
     background-color: #f9f9f9;
   }
 
-  .liked-movies h2, .liked-movies p {
+  .movie-profile-section h2, .movie-profile-section p {
     text-align: center;
   }
 
-  .liked-movie-list li {
+  .movie-profile-section li {
     color:#333;
   }
   </style>
