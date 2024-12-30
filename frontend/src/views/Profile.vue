@@ -38,6 +38,9 @@
   
           // Simuler un délai de 0,2 seconde
           await new Promise(resolve => setTimeout(resolve, 200));
+
+          console.log(this.user); // Vérifie que les données incluent ce dont tu as besoin
+
   
           const response = await fetch("http://localhost:3000/api/users/profile", {
             method: "GET",

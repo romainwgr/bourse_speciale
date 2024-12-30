@@ -10,8 +10,21 @@
       </div>
       <div class="profile-info">
         <h1>{{ user.name }}</h1>
+        <h2>Pseudo : {{ user.public_name }}</h2>
+        <h2>E-mail : {{ user.email }}</h2>
       </div>
     </div>
+    <div class="movie-profile-section">
+      <h2>Films favoris :</h2>
+      <!-- Compléter avec les films favoris -->
+      <p>Aucun film favoris !</p>
+    </div>
+    <div class="movie-profile-section">
+      <h2>À regarder plus tard :</h2>
+      <!-- Compléter avec les films à regarder plus tard -->
+      <p>Vous avez tout visionné !</p>
+    </div>
+
   </template>
   
   <script>
@@ -24,7 +37,7 @@
         type: Object,
         required: true,
         default: () => ({
-          name: "Nom non disponible",
+          name: "Nom indisponible",
           profil_image: "", // Image par défaut définie ailleurs
         }),
       },
@@ -38,11 +51,15 @@
   </script>
   
   <style scoped>
+
+  /* User profile */
+
   .user-profile {
     display: flex;
     align-items: center;
     gap: 15px;
     padding: 20px;
+    color: #333;
     border: 1px solid #ccc;
     border-radius: 8px;
     max-width: 400px;
@@ -56,12 +73,37 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #007bff;
+    align-items: center;
   }
   
   .profile-info h1 {
     font-size: 20px;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .profile-info h2 {
+    font-size: 16px;
     margin: 0;
-    color: #333;
+  }
+
+  /* liked */
+
+  .movie-profile-section {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    margin-top: 30px;
+    margin-inline: 30px;
+    background-color: #f9f9f9;
+  }
+
+  .movie-profile-section h2, .movie-profile-section p {
+    text-align: center;
+  }
+
+  .movie-profile-section li {
+    color:#333;
   }
   </style>
   
