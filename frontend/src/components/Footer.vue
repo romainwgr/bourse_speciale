@@ -32,12 +32,12 @@ main {
 }
 
 .footer {
+  position: inherit;
+  bottom: 0;
   background-color: #1A1A1A;
   color: #fff;
   padding: 0.5em;
   text-align: center;
-  width: 100%;
-  position: fixed;
   bottom: 0;
 }
 </style>

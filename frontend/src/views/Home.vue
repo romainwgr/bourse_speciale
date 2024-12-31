@@ -1,7 +1,6 @@
 <template>
 
 <div>
-    <h1>Galerie d'Images</h1>
     <ImageSlider />
   </div>
 
