@@ -16,7 +16,7 @@
 
     <div class="movie-profile-section">
       <h2>Films favoris :</h2>
-      <div v-if="films.length > 0">
+      <div v-if="films.length > 0" class="wrapper">
         <FilmCard
           v-for="film in films"
           :key="film._id"
@@ -31,8 +31,8 @@
       <p>Vous avez tout visionné !</p>
     </div>
     <div class="logout">
-      <button
-        :style="{ backgroundColor: 'red', color: 'white' }"
+      <button class="logout-button"
+        :style="{ backgroundColor: 'red', color: 'white'}"
         @click="handleLogOut"
       >
         Se déconnecter
@@ -111,8 +111,9 @@ export default {
   color: white;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
-  max-width: 600px;
+  max-width: 675px;
   margin: 40px auto;
+  margin-bottom: 100px;
   background-color: black;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   font-family: 'Arial', sans-serif;
@@ -141,6 +142,14 @@ export default {
 }
 
 /* Movie profile section */
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  width: 100%;
+}
+
 .movie-profile-section {
   margin-top: 40px;
   width: 100%;
@@ -150,7 +159,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   color: #007bff;
 }
 
