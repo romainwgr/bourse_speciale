@@ -16,7 +16,6 @@
     <!-- Section Infos -->
     <div class="film-detail__info">
 
-
       <!-- Affiche le bouton "Like" seulement si l'utilisateur est connecté -->
       <button v-if="isAuthenticated" @click="toggleLike">
         {{ isLiked ? "🧡" : "🩶" }}
@@ -34,49 +33,48 @@
 
       <!-- Tableau des réalisateurs -->
       <div class="film-detail__director" v-if="film && film.directors && film.directors.length > 0">
-  <strong>Réalisateurs :</strong>
-  <table class="detail-table">
-    <thead>
-      <tr>
-        <th>Nom</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="directorEntry in film.directors" :key="directorEntry.director.id">
-        <td>{{ directorEntry.director.name }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div v-else class="film-detail__director">
-  <strong>Réalisateurs :</strong> Non disponibles
-</div>
+        <strong>Réalisateurs :</strong>
+        <table class="detail-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="directorEntry in film.directors" :key="directorEntry.director.id">
+              <td>{{ directorEntry.director.name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else class="film-detail__director">
+        <strong>Réalisateurs :</strong> Non disponibles
+      </div>
 
-
-<!-- Tableau des acteurs -->
-<div class="film-detail__actors" v-if="film && film.actors && film.actors.length > 0">
-  <strong>Acteurs :</strong>
-  <table class="detail-table">
-    <thead>
-      <tr>
-        <th>Nom</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="actorEntry in film.actors" :key="actorEntry.actor.id">
-        <td>{{ actorEntry.actor.name }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div v-else class="film-detail__actors">
-  <strong>Acteurs :</strong> Non disponibles
-</div>
-
-
+      <!-- Tableau des acteurs -->
+      <div class="film-detail__actors" v-if="film && film.actors && film.actors.length > 0">
+        <strong>Acteurs :</strong>
+        <table class="detail-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="actorEntry in film.actors" :key="actorEntry.actor.id">
+              <td>{{ actorEntry.actor.name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-else class="film-detail__actors">
+        <strong>Acteurs :</strong> Non disponibles
+      </div>
 
       <p class="film-detail__overview"><strong>Résumé :</strong> {{ film.overview }}</p>
+      <p></p>
     </div>
+    
   </div>
 
   <!-- Message de chargement -->
@@ -97,76 +95,62 @@ export default {
 
   methods: {
     async toggleLike() {
-  console.log("Route actuelle :", this.$route);
-  console.log("Paramètres de la route :", this.$route.params);
+      const filmId = this.$route?.params?.id;
 
-  const filmId = this.$route?.params?.id;
-
-  if (!filmId) {
-    console.error("Film ID non défini ou invalide.");
-    return;
-  }
-
-  console.log("Film ID pour toggleLike :", filmId);
-
-  try {
-    const token = localStorage.getItem("token");
-    console.log("Token récupéré :", token);
-
-    if (!token) {
-      console.error("Utilisateur non authentifié.");
-      return;
-    }
-
-    if (this.isLiked) {
-      console.log("Suppression du like...");
-      const response = await fetch(`http://localhost:3000/api/likes/${filmId}/unlike`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erreur lors du unlike : ${response.status}`);
+      if (!filmId) {
+        console.error("Film ID non défini ou invalide.");
+        return;
       }
 
-      this.isLiked = false;
-      console.log("Film retiré des likes.");
-    } else {
-      console.log("Ajout du like...");
-      const response = await fetch(`http://localhost:3000/api/likes/${filmId}/like`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const token = localStorage.getItem("token");
 
-      if (!response.ok) {
-        throw new Error(`Erreur lors du like : ${response.status}`);
+        if (!token) {
+          console.error("Utilisateur non authentifié.");
+          return;
+        }
+
+        if (this.isLiked) {
+          const response = await fetch(`http://localhost:3000/api/likes/${filmId}/unlike`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Erreur lors du unlike : ${response.status}`);
+          }
+
+          this.isLiked = false;
+        } else {
+          const response = await fetch(`http://localhost:3000/api/likes/${filmId}/like`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Erreur lors du like : ${response.status}`);
+          }
+
+          this.isLiked = true;
+        }
+      } catch (error) {
+        console.error("Erreur lors du traitement :", error.message);
       }
-
-      this.isLiked = true;
-      console.log("Film ajouté aux likes.");
     }
-  } catch (error) {
-    console.error("Erreur lors du traitement :", error.message);
-  }
-}
-
   },
 
   async created() {
     const route = useRoute();
     const filmId = route.params.id;
 
-
     try {
-      // Vérifier si l'utilisateur est connecté
       const token = localStorage.getItem("token");
-      this.isAuthenticated = !!token; // Si un token existe, l'utilisateur est connecté
+      this.isAuthenticated = !!token;
 
-      // Récupérer les détails du film
       const response = await fetch(`http://localhost:3000/api/films/${filmId}`);
       if (!response.ok) {
         throw new Error(`Erreur HTTP : ${response.status}`);
@@ -174,10 +158,6 @@ export default {
 
       const data = await response.json();
 
-      console.log(this.isAuthenticated);
-      console.log(filmId);
-      console.log(token);
-      // Si l'utilisateur est connecté, vérifier si le film est aimé
       if (this.isAuthenticated) {
         const islikedReq = await fetch(`http://localhost:3000/api/likes/${filmId}/isliked`, {
           headers: {
@@ -193,43 +173,27 @@ export default {
         this.isLiked = islikedData.isLiked;
       }
 
-      // Charger les détails des acteurs avec Promise.all
       const actorRequests = data.actors.map((actor) =>
         fetch(`http://localhost:3000/api/actors/${actor._id}`)
-          .then((res) => {
-            if (!res.ok) throw new Error(`Erreur HTTP pour l'acteur ${actor._id} : ${res.status}`);
-            return res.json();
-          })
-          .catch((error) => {
-            console.error(`Erreur lors de la récupération de l'acteur ${actor._id} :`, error.message);
-            return null;
-          })
+          .then((res) => res.json())
+          .catch(() => null)
       );
 
-      // Charger les détails des réalisateurs avec Promise.all
       const directorRequests = data.directors.map((director) =>
         fetch(`http://localhost:3000/api/directors/${director._id}`)
-          .then((res) => {
-            if (!res.ok) throw new Error(`Erreur HTTP pour le réalisateur ${director._id} : ${res.status}`);
-            return res.json();
-          })
-          .catch((error) => {
-            console.error(`Erreur lors de la récupération du réalisateur ${director._id} :`, error.message);
-            return null;
-          })
+          .then((res) => res.json())
+          .catch(() => null)
       );
 
-      // Résoudre toutes les promesses en parallèle
       const [actors, directors] = await Promise.all([
         Promise.all(actorRequests),
         Promise.all(directorRequests),
       ]);
 
-      // Mettre à jour le film avec les détails des acteurs et réalisateurs
       this.film = {
         ...data,
-        actors: actors.filter(Boolean), // Supprime les acteurs non récupérés
-        directors: directors.filter(Boolean), // Supprime les réalisateurs non récupérés
+        actors: actors.filter(Boolean),
+        directors: directors.filter(Boolean),
       };
     } catch (error) {
       console.error("Erreur lors de la récupération des détails du film :", error);
@@ -237,9 +201,6 @@ export default {
   },
 };
 </script>
-
-
-
 
 <style scoped>
 .detail-table {
@@ -272,6 +233,7 @@ export default {
 
 .film-detail {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   gap: 20px;
@@ -285,12 +247,14 @@ export default {
 .film-detail__image-container {
   display: flex;
   justify-content: center;
-  width: 30%;
+  width: 100%;
+  max-width: 400px; /* Ajuste la largeur maximale de l'image */
 }
 
 .film-detail__image {
   width: 100%;
-  max-height: 400px;
+  height: auto;
+  max-height: 500px;
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -300,7 +264,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 65%;
+  width: 100%;
   padding: 20px;
   background-color: rgb(44, 44, 44);
   color: white;
@@ -311,7 +275,6 @@ export default {
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: white;
 }
 
 .film-detail__year,
@@ -322,6 +285,7 @@ export default {
 .film-detail__overview {
   font-size: 16px;
   line-height: 1.6;
+  word-wrap: break-word; /* Permet de ne pas couper les mots dans les détails */
 }
 
 .loading {
