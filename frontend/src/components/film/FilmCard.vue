@@ -8,11 +8,13 @@
     :to="{ name: 'FilmDetail', params: { id: filmId } }" 
     class="film-card"
   >
-    <img 
-      :src="film.poster_url" 
-      :alt="film.original_title" 
-      class="film-card__image" 
-    />
+    <div class="film-card__image-container">
+      <img 
+        :src="film.poster_url" 
+        :alt="film.original_title" 
+        class="film-card__image" 
+      />
+    </div>
     <h3 class="film-card__title">{{ film.original_title }}</h3>
   </router-link>
   <div v-else class="error">
@@ -68,8 +70,8 @@ export default {
 }
 
 .film-card__image {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover; /* L'image couvre toute la zone sans déformer */
 }
 
