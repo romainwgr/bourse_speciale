@@ -9,6 +9,9 @@
         :film="film"
       />
     </div>
+    <ActorFilm/>
+    <DirectorFilm />
+
 
     <!-- Message d'erreur si la requête échoue -->
     <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -17,10 +20,15 @@
 
 <script>
 import FilmCard from "@/components/film/FilmCard.vue";
+import DirectorFilm from "@/components/home/DirectorFilm.vue"
+import ActorFilm from "@/components/home/ActorFilm.vue"
 
 export default {
   components: {
     FilmCard,
+    DirectorFilm,
+    ActorFilm
+
   },
   data() {
     return {
@@ -45,7 +53,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style >
 /* Conteneur principal des films */
 .film-container {
   display: flex; /* Permet l'affichage en ligne (horizontal) */
